@@ -24,7 +24,7 @@ class RandomizedQueueTest extends Specification {
 
     def "failRemoveFirstIfEmpty"() {
         given:
-        def rq2 = new MyDeque()
+        def rq2 = new Deque()
         when:
         rq2.removeFirst()
         then:
@@ -33,7 +33,7 @@ class RandomizedQueueTest extends Specification {
 
     def "failRemoveLastIfEmpty"() {
         given:
-        def rq2 = new MyDeque()
+        def rq2 = new Deque()
         when:
         rq2.removeLast()
         then:

@@ -1,10 +1,9 @@
-import org.spockframework.gentyref.TypeToken
 import spock.lang.Shared
 import spock.lang.Specification
 
-class MyDequeTest extends Specification {
+class DequeTest extends Specification {
     @Shared
-    def d1 = new MyDeque()
+    def d1 = new Deque()
 
     def "initially size zero"() {
         expect:
@@ -25,14 +24,14 @@ class MyDequeTest extends Specification {
 
     def "addLast null arg"() {
         when:
-        d1.addFirst(null)
+        d1.addLast(null)
         then:
         thrown(IllegalArgumentException)
     }
 
     def "failRemoveFirstIfEmpty"() {
         given:
-        def d2 = new MyDeque()
+        def d2 = new Deque()
         when:
         d2.removeFirst()
         then:
@@ -41,7 +40,7 @@ class MyDequeTest extends Specification {
 
     def "failRemoveLastIfEmpty"() {
         given:
-        def d2 = new MyDeque()
+        def d2 = new Deque()
         when:
         d2.removeLast()
         then:
@@ -68,7 +67,7 @@ class MyDequeTest extends Specification {
 
     def "addFist"() {
         given:
-        def d2 = new MyDeque<Integer>()
+        def d2 = new Deque<Integer>()
         when:
         d1.addFirst(new Integer(1))
         then:
@@ -77,7 +76,7 @@ class MyDequeTest extends Specification {
 
     def "addFistTwice"() {
         given:
-        def d2 = new MyDeque<Integer>()
+        def d2 = new Deque<Integer>()
         when:
         d2.addFirst(new Integer(1))
         d2.addFirst(new Integer(2))
@@ -87,7 +86,7 @@ class MyDequeTest extends Specification {
 
     def "addLastTwice"() {
         given:
-        def d2 = new MyDeque<Integer>()
+        def d2 = new Deque<Integer>()
         when:
         d2.addLast(new Integer(1))
         d2.addLast(new Integer(2))
@@ -97,7 +96,7 @@ class MyDequeTest extends Specification {
 
     def "iteratorTwoEl"() {
         given:
-        def d2 = new MyDeque<Integer>()
+        def d2 = new Deque<Integer>()
         d2.addLast(new Integer(1))
         d2.addLast(new Integer(2))
         def i2 = d2.iterator();
@@ -111,7 +110,7 @@ class MyDequeTest extends Specification {
 
     def "iteratorTwoElAddFirst"() {
         given:
-        def d2 = new MyDeque<Integer>()
+        def d2 = new Deque<Integer>()
         d2.addFirst(new Integer(1))
         d2.addFirst(new Integer(2))
         def i2 = d2.iterator();
@@ -121,6 +120,28 @@ class MyDequeTest extends Specification {
         i2.hasNext() == true
         i2.next() == 1
         i2.hasNext() == false
+    }
+
+    def "removeFirst"() {
+        given:
+        def d2 = new Deque<Integer>()
+        d2.addLast(new Integer(1))
+        d2.addLast(new Integer(2))
+        d2.addLast(new Integer(3))
+        expect:
+        d2.removeFirst() == 1
+        d2.removeFirst() == 2
+    }
+
+    def "removeLast"() {
+        given:
+        def d2 = new Deque<Integer>()
+        d2.addLast(new Integer(1))
+        d2.addLast(new Integer(2))
+        d2.addLast(new Integer(3))
+        expect:
+        d2.removeLast() == 3
+        d2.removeLast() == 2
     }
 
 
