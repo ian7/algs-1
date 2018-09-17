@@ -20,34 +20,47 @@ public class Point implements Comparable<Point> {
   }// string representation
 
   public int compareTo(Point that) {
-    if( that.y > this.y ){
+    if (that.y > this.y) {
       return -1;
     }
-    if( that.y < this.y ){
+    if (that.y < this.y) {
       return +1;
     }
-    if( that.x > this.x ){
+    if (that.x > this.x) {
       return -1;
     }
-    if( that.x < this.x ){
+    if (that.x < this.x) {
       return +1;
     }
     return 0;
   }// compare two points by y-coordinates, breaking ties by x-coordinates
 
   public double slopeTo(Point that) {
-    if( that.x == this.x){
-      if( that.y == this.y ){
+    if (that.x == this.x) {
+      if (that.y == this.y) {
         return Double.NEGATIVE_INFINITY;
       }
       return Double.POSITIVE_INFINITY;
     }
-    return (that.y - this.y)/(that.x - this.x);
+    return (that.y - this.y) / (that.x - this.x);
   }// the slope between this point and that point
 
   public Comparator<Point> slopeOrder() {
-    // compare two points by slopes they make with this point
-    return null;
+    return new PointComparator(this);
+  }
+
+  public class PointComparator implements Comparator<Point> {
+
+    private Point origin;
+
+    PointComparator(Point origin) {
+      this.origin = origin;
+    }
+
+    @Override
+    public int compare(Point p1, Point p2) {
+      return Double.compare(this.origin.compareTo(p1), this.origin.compareTo(p2));
+    }
   }
 
 }
