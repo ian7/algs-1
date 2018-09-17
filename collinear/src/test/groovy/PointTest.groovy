@@ -7,28 +7,28 @@ class PointTest extends Specification
         def p1 = new Point(1,2)
         def p2 = new Point( 2,2)
         expect:
-        p1.compareTo(p2) == -1
+        p1.compareTo(p2) == 1
     }
     def "CompareSmaller"(){
         given:
         def p1 = new Point(2,2)
         def p2 = new Point( 1,2)
         expect:
-        p1.compareTo(p2) == 1
+        p1.compareTo(p2) == 0
     }
     def "CompareBiggerX"(){
         given:
         def p1 = new Point(1,2)
         def p2 = new Point( 1,3)
         expect:
-        p1.compareTo(p2) == -1
+        p1.compareTo(p2) == 1
     }
     def "CompareSmallerY"(){
         given:
         def p1 = new Point(1,3)
         def p2 = new Point( 1,2)
         expect:
-        p1.compareTo(p2) == 1
+        p1.compareTo(p2) == 0
     }
     def "CompareEqual"(){
         given:
@@ -71,8 +71,8 @@ class PointTest extends Specification
         def p2 = new Point( 3,3)
         def p3 = new Point( 2,5)
         expect:
-        p1.slopeOrder().compare(p1,p2) == 1
-        p1.slopeOrder().compare(p2,p1) == -1
-        p1.slopeOrder().compare(p1,p1) == 0
+        p1.slopeOrder().compare(p2,p3) == -1
+        p1.slopeOrder().compare(p3,p2) == 1
+        p1.slopeOrder().compare(p2,p2) == 0
     }
 }

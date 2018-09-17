@@ -1,7 +1,8 @@
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class BruteCollinearPoints {
-  Point[] points;
+  private final Point[] points;
 
   public BruteCollinearPoints(Point[] points)    // finds all line segments containing 4 points
   {
@@ -18,28 +19,28 @@ public class BruteCollinearPoints {
         }
       }
     }
-    this.points = points;
+    this.points = points.clone();
   }
 
   public int numberOfSegments()        // the number of line segments
   {
     int segmentsCount = 0;
 
-    for( int i=0; i<this.points.length;i++){
-      for( int j=i; j<this.points.length;j++){
-        if( i==j ){
+    for (int i = 0; i < this.points.length; i++) {
+      for (int j = i; j < this.points.length; j++) {
+        if (i == j) {
           continue;
         }
-        for( int k=j; k<this.points.length;k++){
-          if( k==i || k ==j ){
+        for (int k = j; k < this.points.length; k++) {
+          if (k == i || k == j) {
             continue;
           }
-          for( int l=k; l<this.points.length;l++){
-            if( l==k|| l==j || l==i){
+          for (int l = k; l < this.points.length; l++) {
+            if (l == k || l == j || l == i) {
               continue;
             }
-            if( areCollinear(this.points[i],
-                this.points[j],this.points[k],this.points[l])){
+            if (areCollinear(this.points[i],
+                this.points[j], this.points[k], this.points[l])) {
               segmentsCount++;
             }
           }
@@ -53,22 +54,31 @@ public class BruteCollinearPoints {
     final LineSegment[] segments = new LineSegment[numberOfSegments()];
     int segmentIndex = 0;
 
-    for( int i=0; i<this.points.length;i++){
-      for( int j=i; j<this.points.length;j++){
-        if( i==j ){
+    for (int i = 0; i < this.points.length; i++) {
+      for (int j = i; j < this.points.length; j++) {
+        if (i == j) {
           continue;
         }
-        for( int k=j; k<this.points.length;k++){
-          if( k==i || k ==j ){
+        for (int k = j; k < this.points.length; k++) {
+          if (k == i || k == j) {
             continue;
           }
-          for( int l=k; l<this.points.length;l++){
-            if( l==k|| l==j || l==i){
+          for (int l = k; l < this.points.length; l++) {
+            if (l == k || l == j || l == i) {
               continue;
             }
-            if( areCollinear(this.points[i],
-                this.points[j],this.points[k],this.points[l])){
-              segments[segmentIndex++] = new LineSegment(this.points[i],this.points[l]);
+            if (areCollinear(this.points[i],
+                this.points[j], this.points[k], this.points[l])) {
+
+              Point line[] = new Point[4];
+              line[0] = points[i];
+              line[1] = points[j];
+              line[2] = points[k];
+              line[3] = points[l];
+
+              Arrays.sort(line);
+
+              segments[segmentIndex++] = new LineSegment(line[0],line[3]);
             }
           }
         }
@@ -76,16 +86,12 @@ public class BruteCollinearPoints {
     }
     return segments;
   }
-  private boolean areCollinear( Point p1, Point p2, Point p3, Point p4){
+
+  private boolean areCollinear(Point p1, Point p2, Point p3, Point p4) {
     final double slope1 = p1.slopeTo(p2);
     final double slope2 = p2.slopeTo(p3);
     final double slope3 = p3.slopeTo(p4);
-    if( slope1 == slope2 && slope2 == slope3 ){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return (slope1 == slope2 && slope2 == slope3);
   }
 
   /*
