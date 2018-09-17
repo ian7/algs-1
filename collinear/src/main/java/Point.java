@@ -36,7 +36,10 @@ public class Point implements Comparable<Point> {
   }// compare two points by y-coordinates, breaking ties by x-coordinates
 
   public double slopeTo(Point that) {
-    return 0d;
+    if( that.x - this.x == 0){
+      return Double.POSITIVE_INFINITY;
+    }
+    return (that.y - this.y)/(that.x - this.x);
   }// the slope between this point and that point
 
   public Comparator<Point> slopeOrder() {
