@@ -32,11 +32,20 @@ public class Board {
 
   // (where blocks[i][j] = block in row i, column j)
   public int dimension() {
-    return 0;
+    return this.size;
   } // board dimension n
 
   public int hamming() {
-    return 0;
+    int hammingMetric = 0;
+
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        if (!isExpectedValue(i, j)) {
+          hammingMetric++;
+        }
+      }
+    }
+    return hammingMetric;
   }                   // number of blocks out of place
 
   public int manhattan() {
@@ -44,14 +53,7 @@ public class Board {
   }                 // sum of Manhattan distances between blocks and goal
 
   public boolean isGoal() {
-    for (int i = 0; i < this.size; i++) {
-      for (int j = 0; j < this.size; j++) {
-        if (isExpectedValue(i, j)) {
-          return false;
-        }
-      }
-    }
-    return true;
+    return( hamming()==0 );
   }                // is this board the goal board?
 
   private boolean isExpectedValue(int i, int j) {
@@ -62,10 +64,8 @@ public class Board {
     } else {
       expectedValue = 0;
     }
-    if (this.blocks[i][j] != expectedValue) {
-      return true;
-    }
-    return false;
+
+    return(this.blocks[i][j] == expectedValue);
   }
 
   public Board twin() {

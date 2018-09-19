@@ -62,4 +62,35 @@ class BoardTest extends Specification {
         then:
         b.isGoal() == true
     }
+
+    def "dimension"(){
+        when:
+        def blocks = [[1,2,3],[4,5,6],[7,8,0]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.dimension()==3
+    }
+    def "hamming0"(){
+        when:
+        def blocks = [[1,2,3],[4,5,6],[7,8,0]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.hamming()==0
+    }
+    def "hamming2"(){
+        when:
+        def blocks = [[1,2,3],[4,5,6],[7,0,8]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.hamming()==2
+    }
+    def "hamming6"(){
+        when:
+        def blocks = [[0,1,3],[4,2,5],[7,6,8]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.hamming()==6
+    }
+
+
 }
