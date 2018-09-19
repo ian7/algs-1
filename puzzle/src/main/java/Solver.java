@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solver {
-  private Puzzle originalPuzzle;
-  private Puzzle modifiedPuzzle;
+  private final Puzzle originalPuzzle;
+  private final Puzzle modifiedPuzzle;
 
   public Solver(Board initialBoard) {
-    if( initialBoard == null ){
+    if (initialBoard == null) {
       throw new IllegalArgumentException();
     }
     this.originalPuzzle = new Puzzle(initialBoard);
@@ -27,19 +27,17 @@ public class Solver {
   }           // is the initial board solvable?
 
   public int moves() {
-    if( originalPuzzle.isSolved()) {
+    if (originalPuzzle.isSolved()) {
       return originalPuzzle.solution.size();
-    }
-    else{
+    } else {
       return -1;
     }
   }                     // min number of moves to solve initial board; -1 if unsolvable
 
   public Iterable<Board> solution() {
-    if( originalPuzzle.isSolved()){
+    if (originalPuzzle.isSolved()) {
       return originalPuzzle.solution();
-    }
-    else{
+    } else {
       return null;
     }
   }     // sequence of boards in a shortest solution; null if unsolvable
@@ -50,8 +48,8 @@ public class Solver {
 
   private class Puzzle {
     private final Node initial;
-    private MinPQ<Node> queue;
-    private List<Board> solution;
+    private final MinPQ<Node> queue;
+    private final List<Board> solution;
     private Board predecessor;
 
     Puzzle(Board initialBoard) {
@@ -68,8 +66,7 @@ public class Solver {
       solution.add(min.board);
       for (Node neighbor : min.neighbors()) {
         // first optimization
-        if (predecessor == null || (
-            predecessor != null && !predecessor.equals(neighbor.board))) {
+        if (predecessor == null || !predecessor.equals(neighbor.board)) {
           this.queue.insert(neighbor);
         }
       }
@@ -86,8 +83,8 @@ public class Solver {
   }
 
   private class Node implements Comparable<Node> {
-    private Board board;
-    private int depth;
+    private final Board board;
+    private final int depth;
 
     Node(Board b, int depth) {
       this.board = b;

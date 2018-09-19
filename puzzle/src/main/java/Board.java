@@ -105,12 +105,12 @@ public class Board {
     }
     if (newBlocks[0][0] == 0) {
       int aux = newBlocks[0][1];
-      newBlocks[0][1] = newBlocks[0][2];
-      newBlocks[0][2] = aux;
+      newBlocks[0][1] = newBlocks[1][0];
+      newBlocks[1][0] = aux;
     } else if (newBlocks[0][1] == 0) {
       int aux = newBlocks[0][0];
-      newBlocks[0][0] = newBlocks[0][2];
-      newBlocks[0][2] = aux;
+      newBlocks[0][0] = newBlocks[1][0];
+      newBlocks[1][0] = aux;
     } else {
       int aux = newBlocks[0][0];
       newBlocks[0][0] = newBlocks[0][1];
@@ -121,6 +121,12 @@ public class Board {
   }                    // a board that is obtained by exchanging any pair of blocks
 
   public boolean equals(Object y) {
+    if( y == null ){
+      return false;
+    }
+    if( y.getClass() != Board.class){
+      return false;
+    }
     Board that = (Board) y;
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
@@ -201,16 +207,17 @@ public class Board {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
+    sb.append(this.size).append("\n");
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
-        sb.append(this.blocks[i][j]).append(" ");
+        sb.append(" ").append(this.blocks[i][j]);
       }
       sb.append("\n");
     }
     return sb.toString();
-  }// string representation of this board (in the output format specified below)
+  } // string representation of this board (in the output format specified below)
 
   public static void main(String[] args) {
 
-  }// unit tests (not graded)
+  } // unit tests (not graded)
 }
