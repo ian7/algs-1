@@ -40,20 +40,40 @@ public class Board {
 
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
-        if (!isExpectedValue(i, j)) {
+        if ( this.blocks[i][j] != 0 && !isExpectedValue(i, j)) {
           hammingMetric++;
         }
       }
     }
-    return hammingMetric;
+    return hammingMetric + priorMovesCount;
   }                   // number of blocks out of place
 
   public int manhattan() {
-    return 0;
+    int manhattanMetric = 0;
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        manhattanMetric += manhattanDistance(i, j);
+      }
+    }
+    return manhattanMetric;
   }                 // sum of Manhattan distances between blocks and goal
 
+  private int manhattanDistance(int i, int j) {
+    final int currentValue = this.blocks[i][j];
+
+    if (currentValue == 0) {
+      return 0;
+    }
+
+    final int shouldI = (currentValue - 1) / this.size;
+    final int shouldJ = (currentValue - 1) % this.size;
+    final int deltaI = Math.abs(shouldI - i);
+    final int deltaJ = Math.abs(shouldJ - j);
+    return (deltaI + deltaJ);
+  }
+
   public boolean isGoal() {
-    return( hamming()==0 );
+    return (hamming() == 0);
   }                // is this board the goal board?
 
   private boolean isExpectedValue(int i, int j) {
@@ -65,7 +85,7 @@ public class Board {
       expectedValue = 0;
     }
 
-    return(this.blocks[i][j] == expectedValue);
+    return (this.blocks[i][j] == expectedValue);
   }
 
   public Board twin() {
