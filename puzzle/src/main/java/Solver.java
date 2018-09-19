@@ -64,9 +64,25 @@ public class Solver {
       min = this.queue.delMin();
       for (Node neighbor : min.neighbors()) {
         // first optimization
-        this.queue.insert(neighbor);
+        if (!isOwnHeir(neighbor)) {
+          this.queue.insert(neighbor);
+        }
       }
+    }
 
+    private boolean isOwnHeir(Node neighbor) {
+      if( neighbor.predecessor.predecessor == null ){
+        return false;
+      }
+      if( neighbor.predecessor.predecessor.equals(neighbor) ) {
+        return true;
+      }
+      return false;
+      /*for (Node n = neighbor.predecessor; n.predecessor != null; n = n.predecessor) {
+        if (n.predecessor.equals(neighbor)) {
+          return true;
+        }
+      }*/
     }
 
     public boolean isSolved() {
@@ -137,6 +153,11 @@ public class Solver {
       }
       return moves;
     }
+
+    public boolean equals(Node n) {
+      return this.board.equals(n.board);
+    }
+
 
   }
 
