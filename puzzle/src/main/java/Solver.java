@@ -29,7 +29,7 @@ public class Solver {
 
   public int moves() {
     if (originalPuzzle.isSolved()) {
-      return originalPuzzle.moves() + 1;
+      return originalPuzzle.moves();
     } else {
       return -1;
     }
@@ -50,13 +50,12 @@ public class Solver {
   private class Puzzle {
     private final Node initial;
     private final MinPQ<Node> queue;
-    private Board predecessor;
+    private Node predecessor;
 
     Puzzle(Board initialBoard) {
       this.initial = new Node(null, initialBoard, 0);
       this.queue = new MinPQ<>();
       queue.insert(this.initial);
-      this.predecessor = null;
     }
 
     public void makeStep() {
@@ -64,11 +63,11 @@ public class Solver {
       Node min = this.queue.delMin();
       for (Node neighbor : min.neighbors()) {
         // first optimization
-        if (predecessor == null || !predecessor.equals(neighbor.board)) {
+        if (neighbor.predecessor.predecessor == null ||
+            !neighbor.predecessor.predecessor.equals(neighbor.board)) {
           this.queue.insert(neighbor);
         }
       }
-      predecessor = min.board;
     }
 
     public boolean isSolved() {
@@ -88,11 +87,15 @@ public class Solver {
     private final Board board;
     private final int depth;
     private final Node predecessor;
+    private final boolean isGoal;
+    private final int manhattanMetricValue;
 
     Node(Node predecessor, Board b, int depth) {
       this.board = b;
       this.depth = depth;
       this.predecessor = predecessor;
+      this.isGoal = b.isGoal();
+      this.manhattanMetricValue = b.manhattan();
     }
 
     @Override
@@ -101,11 +104,11 @@ public class Solver {
     }
 
     private int metric() {
-      return this.depth + this.board.manhattan();
+      return this.manhattanMetricValue;
     }
 
     public boolean isGoal() {
-      return this.board.isGoal();
+      return this.isGoal;
     }
 
     public List<Node> neighbors() {
@@ -118,9 +121,13 @@ public class Solver {
 
     public List<Board> getSolution() {
       LinkedList<Board> solution = new LinkedList<>();
-      for (Node n = this; n.predecessor != null; n = n.predecessor) {
+      Node n = this;
+
+      while (n.predecessor != null) {
         solution.addFirst(n.board);
+        n = n.predecessor;
       }
+      solution.addFirst(n.board);
       return solution;
     }
 

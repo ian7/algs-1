@@ -4,7 +4,13 @@ import java.util.List;
 public class Board {
   private int[][] blocks;
   private int size;
+  private int manhattanMetricValue;
+  private int movesPrior;
 
+  private Board(int[][] blocks, int movesPrior){
+    this(blocks);
+    this.manhattanMetricValue = this.manhattanMetricValue+movesPrior;
+  }
   public Board(int[][] blocks) {
     // let's do assertions and copy the stuff locally
     this.size = blocks.length;
@@ -35,7 +41,18 @@ public class Board {
         }
       }
     }
+    manhattanMetricValue = calculateManhattanMetricValue();
   }           // construct a board from an n-by-n array of blocks
+
+  private int calculateManhattanMetricValue() {
+    int manhattanMetric = 0;
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        manhattanMetric += manhattanDistance(i, j);
+      }
+    }
+    return manhattanMetric;
+  }
 
   // (where blocks[i][j] = block in row i, column j)
   public int dimension() {
@@ -56,13 +73,7 @@ public class Board {
   }                   // number of blocks out of place
 
   public int manhattan() {
-    int manhattanMetric = 0;
-    for (int i = 0; i < this.size; i++) {
-      for (int j = 0; j < this.size; j++) {
-        manhattanMetric += manhattanDistance(i, j);
-      }
-    }
-    return manhattanMetric;
+    return manhattanMetricValue;
   }                 // sum of Manhattan distances between blocks and goal
 
   private int manhattanDistance(int i, int j) {
@@ -121,15 +132,15 @@ public class Board {
   }                    // a board that is obtained by exchanging any pair of blocks
 
   public boolean equals(Object y) {
-    if( y == null ){
+    if (y == null) {
       return false;
     }
-    if( y.getClass() != Board.class){
+    if (y.getClass() != Board.class) {
       return false;
     }
     Board that = (Board) y;
 
-    if( this.size != that.size){
+    if (this.size != that.size) {
       return false;
     }
 

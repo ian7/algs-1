@@ -99,6 +99,22 @@ class BoardTest extends Specification {
         b.hamming()==5
     }
 
+    def "manhattan2"(){
+        when:
+        def blocks = [[0,1],[2,3]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.manhattan()==4
+    }
+
+    def "manhattan3"(){
+        when:
+        def blocks = [[5,8,7],[1,0,6],[3,4,2]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.manhattan()==18
+    }
+
 
     /* can't be tested since it's private
     def "manhattanDistance1"(){

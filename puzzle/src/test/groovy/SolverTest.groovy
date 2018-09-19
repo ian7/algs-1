@@ -7,14 +7,14 @@ class SolverTest extends Specification {
         def b = new Board(blocks)
         def s = new Solver(b)
         then:
-        s.solution().size() == 4
+        s.solution().size() == 5
         s.isSolvable()
-        s.moves() == 5
+        s.moves() == 4
     }
 
     def "dual construction"(){
         when:
-        def blocks = [[0,3,1],[4,2,5],[7,8,6]] as int[][]
+        def blocks = [[0,4,3],[1,2,5],[7,8,6]] as int[][]
         def b = new Board(blocks)
         def s = new Solver(b)
         then:
