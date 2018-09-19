@@ -100,7 +100,7 @@ public class Solver {
     }
 
     private int metric() {
-      return this.depth + this.board.hamming();
+      return this.depth + this.board.manhattan();
     }
 
     public boolean isGoal() {

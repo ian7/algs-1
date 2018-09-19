@@ -4,14 +4,13 @@ import java.util.List;
 public class Board {
   private int[][] blocks;
   private int size;
-  private int priorMovesCount;
 
   public Board(int[][] blocks) {
     // let's do assertions and copy the stuff locally
     this.size = blocks.length;
     this.blocks = new int[this.size][this.size];
-    for( int i=0; i<this.size; i++){
-      for( int j=0; j<this.size;j++){
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
         this.blocks[i][j] = blocks[i][j];
       }
     }
@@ -53,7 +52,7 @@ public class Board {
         }
       }
     }
-    return hammingMetric + priorMovesCount;
+    return hammingMetric;
   }                   // number of blocks out of place
 
   public int manhattan() {
@@ -99,25 +98,23 @@ public class Board {
   public Board twin() {
     int[][] newBlocks = new int[this.size][this.size];
 
-    for( int i=0;i<this.size; i++){
-      for( int j=0; j<this.size;j++){
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
         newBlocks[i][j] = this.blocks[i][j];
       }
     }
-    if(newBlocks[0][0]==0){
+    if (newBlocks[0][0] == 0) {
       int aux = newBlocks[0][1];
-      newBlocks[0][1]=newBlocks[0][2];
-      newBlocks[0][2]=aux;
-    }
-    else if(newBlocks[0][1]==0){
+      newBlocks[0][1] = newBlocks[0][2];
+      newBlocks[0][2] = aux;
+    } else if (newBlocks[0][1] == 0) {
       int aux = newBlocks[0][0];
-      newBlocks[0][0]=newBlocks[0][2];
-      newBlocks[0][2]=aux;
-    }
-    else{
+      newBlocks[0][0] = newBlocks[0][2];
+      newBlocks[0][2] = aux;
+    } else {
       int aux = newBlocks[0][0];
-      newBlocks[0][0]=newBlocks[0][1];
-      newBlocks[0][1]=aux;
+      newBlocks[0][0] = newBlocks[0][1];
+      newBlocks[0][1] = aux;
     }
     Board newBoard = new Board(newBlocks);
     return newBoard;
@@ -144,45 +141,47 @@ public class Board {
     // if it empty ain't top edge - swap with top
     if (emptyI > 0) {
       Board that = new Board(this.blocks);
-      that.swapTop(emptyI,emptyJ);
+      that.swapTop(emptyI, emptyJ);
       neighbors.add(that);
     }
     // if empty ain't at the bottom edge - swap it with bottom
     if (emptyI < this.size - 1) {
       Board that = new Board(this.blocks);
-      that.swapBottom(emptyI,emptyJ);
+      that.swapBottom(emptyI, emptyJ);
       neighbors.add(that);
     }
     // if empty ain't at the left edge - swap it with left
     if (emptyJ > 0) {
       Board that = new Board(this.blocks);
-      that.swapLeft(emptyI,emptyJ);
+      that.swapLeft(emptyI, emptyJ);
       neighbors.add(that);
     }
     if (emptyJ < this.size - 1) {
       Board that = new Board(this.blocks);
-      that.swapRight(emptyI,emptyJ);
+      that.swapRight(emptyI, emptyJ);
       neighbors.add(that);
     }
     return neighbors;
   } // all neighboring boards
 
-  private void swapTop(int i, int j){
-    this.blocks[i][j] = this.blocks[i-1][j];
-    this.blocks[i-1][j] = 0;
+  private void swapTop(int i, int j) {
+    this.blocks[i][j] = this.blocks[i - 1][j];
+    this.blocks[i - 1][j] = 0;
   }
 
-  private void swapBottom(int i, int j){
-    this.blocks[i][j] = this.blocks[i+1][j];
-    this.blocks[i+1][j] = 0;
+  private void swapBottom(int i, int j) {
+    this.blocks[i][j] = this.blocks[i + 1][j];
+    this.blocks[i + 1][j] = 0;
   }
-  private void swapLeft(int i, int j){
-    this.blocks[i][j] = this.blocks[i][j-1];
-    this.blocks[i][j-1] = 0;
+
+  private void swapLeft(int i, int j) {
+    this.blocks[i][j] = this.blocks[i][j - 1];
+    this.blocks[i][j - 1] = 0;
   }
-  private void swapRight(int i, int j){
-    this.blocks[i][j] = this.blocks[i][j+1];
-    this.blocks[i][j+1] = 0;
+
+  private void swapRight(int i, int j) {
+    this.blocks[i][j] = this.blocks[i][j + 1];
+    this.blocks[i][j + 1] = 0;
   }
 
   private int findIndex(int element) {
