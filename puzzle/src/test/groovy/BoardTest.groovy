@@ -117,6 +117,21 @@ class BoardTest extends Specification {
         then:
         b.manhattanDistance(1,2)==2
     }
+    def "findIndex"(){
+        when:
+        def blocks = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.findIndex(8)==0
+        b.findIndex(4)==3
+    }
+    def "findEmptyIndex"(){
+        when:
+        def blocks = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.findEmptyIndex()==4
+    }
     */
 
     def "manhattanMetric1"(){
@@ -126,5 +141,36 @@ class BoardTest extends Specification {
         then:
         b.manhattan()==10
     }
-
+    def "equalsPositive"(){
+        when:
+        def blocks1 = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def blocks2 = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b1 = new Board(blocks1)
+        def b2 = new Board(blocks2)
+        then:
+        b1.equals(b2)==true
+    }
+    def "equalsNegative"(){
+        when:
+        def blocks1 = [[8,1,3],[4,0,2],[7,5,6]] as int[][]
+        def blocks2 = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b1 = new Board(blocks1)
+        def b2 = new Board(blocks2)
+        then:
+        b1.equals(b2)==false
+    }
+    def "neighbors"(){
+        when:
+        def blocks = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.neighbors().size() ==4
+    }
+    def "twin"(){
+        when:
+        def blocks = [[8,1,3],[4,0,2],[7,6,5]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.twin() != null
+    }
 }

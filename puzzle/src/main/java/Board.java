@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
   private int[][] blocks;
   private int size;
@@ -6,7 +9,12 @@ public class Board {
   public Board(int[][] blocks) {
     // let's do assertions and copy the stuff locally
     this.size = blocks.length;
-    this.blocks = blocks.clone();
+    this.blocks = new int[this.size][this.size];
+    for( int i=0; i<this.size; i++){
+      for( int j=0; j<this.size;j++){
+        this.blocks[i][j] = blocks[i][j];
+      }
+    }
     boolean checked[] = new boolean[this.size * this.size];
 
     // checking if array is rectangular
@@ -40,7 +48,7 @@ public class Board {
 
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
-        if ( this.blocks[i][j] != 0 && !isExpectedValue(i, j)) {
+        if (this.blocks[i][j] != 0 && !isExpectedValue(i, j)) {
           hammingMetric++;
         }
       }
@@ -89,20 +97,96 @@ public class Board {
   }
 
   public Board twin() {
-    return null;
+    return neighbors().iterator().next();
   }                    // a board that is obtained by exchanging any pair of blocks
 
   public boolean equals(Object y) {
-    return false;
+    Board that = (Board) y;
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        if (that.blocks[i][j] != this.blocks[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
   }        // does this board equal y?
 
   public Iterable<Board> neighbors() {
-    return null;
+    List<Board> neighbors = new ArrayList<>();
+    final int emptyIndex = findEmptyIndex();
+    final int emptyI = emptyIndex / this.size;
+    final int emptyJ = emptyIndex % this.size;
+
+    // if it empty ain't top edge - swap with top
+    if (emptyI > 0) {
+      Board that = new Board(this.blocks);
+      that.swapTop(emptyI,emptyJ);
+      neighbors.add(that);
+    }
+    // if empty ain't at the bottom edge - swap it with bottom
+    if (emptyI < this.size - 1) {
+      Board that = new Board(this.blocks);
+      that.swapBottom(emptyI,emptyJ);
+      neighbors.add(that);
+    }
+    // if empty ain't at the left edge - swap it with left
+    if (emptyJ > 0) {
+      Board that = new Board(this.blocks);
+      that.swapLeft(emptyI,emptyJ);
+      neighbors.add(that);
+    }
+    if (emptyJ < this.size - 1) {
+      Board that = new Board(this.blocks);
+      that.swapRight(emptyI,emptyJ);
+      neighbors.add(that);
+    }
+    return neighbors;
   } // all neighboring boards
 
+  private void swapTop(int i, int j){
+    this.blocks[i][j] = this.blocks[i-1][j];
+    this.blocks[i-1][j] = 0;
+  }
+
+  private void swapBottom(int i, int j){
+    this.blocks[i][j] = this.blocks[i+1][j];
+    this.blocks[i+1][j] = 0;
+  }
+  private void swapLeft(int i, int j){
+    this.blocks[i][j] = this.blocks[i][j-1];
+    this.blocks[i][j-1] = 0;
+  }
+  private void swapRight(int i, int j){
+    this.blocks[i][j] = this.blocks[i][j+1];
+    this.blocks[i][j+1] = 0;
+  }
+
+  private int findIndex(int element) {
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        if (this.blocks[i][j] == element) {
+          return (i * this.size + j);
+        }
+      }
+    }
+    return -1;
+  }
+
+  private int findEmptyIndex() {
+    return findIndex(0);
+  }
+
   public String toString() {
-    return null;
-  }               // string representation of this board (in the output format specified below)
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < this.size; i++) {
+      for (int j = 0; j < this.size; j++) {
+        sb.append(this.blocks[i][j]).append(" ");
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }// string representation of this board (in the output format specified below)
 
   public static void main(String[] args) {
 
