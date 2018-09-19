@@ -46,20 +46,27 @@ public class Board {
   public boolean isGoal() {
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
-        final int blockIndex = i * this.size + j;
-        final int expectedValue;
-        if (blockIndex < this.size * this.size-1) {
-          expectedValue = blockIndex + 1;
-        } else {
-          expectedValue = 0;
-        }
-        if (this.blocks[i][j] != expectedValue) {
+        if (isExpectedValue(i, j)) {
           return false;
         }
       }
     }
     return true;
   }                // is this board the goal board?
+
+  private boolean isExpectedValue(int i, int j) {
+    final int blockIndex = i * this.size + j;
+    final int expectedValue;
+    if (blockIndex < this.size * this.size - 1) {
+      expectedValue = blockIndex + 1;
+    } else {
+      expectedValue = 0;
+    }
+    if (this.blocks[i][j] != expectedValue) {
+      return true;
+    }
+    return false;
+  }
 
   public Board twin() {
     return null;
