@@ -50,36 +50,35 @@ public class Solver {
   private class Puzzle {
     private final Node initial;
     private final MinPQ<Node> queue;
-    private Node predecessor;
+    private Node min;
 
     Puzzle(Board initialBoard) {
       this.initial = new Node(null, initialBoard, 0);
       this.queue = new MinPQ<>();
       queue.insert(this.initial);
+      this.min = this.initial;
     }
 
     public void makeStep() {
 
-      Node min = this.queue.delMin();
+      min = this.queue.delMin();
       for (Node neighbor : min.neighbors()) {
         // first optimization
-        if (neighbor.predecessor.predecessor == null ||
-            !neighbor.predecessor.predecessor.equals(neighbor.board)) {
-          this.queue.insert(neighbor);
-        }
+        this.queue.insert(neighbor);
       }
+
     }
 
     public boolean isSolved() {
-      return this.queue.min().isGoal();
+      return this.min.isGoal();
     }
 
     public Iterable<Board> solution() {
-      return this.queue.min().getSolution();
+      return this.min.getSolution();
     }
 
     public int moves() {
-      return this.queue.min().getMoves();
+      return this.min.getMoves();
     }
   }
 
@@ -104,7 +103,7 @@ public class Solver {
     }
 
     private int metric() {
-      return this.manhattanMetricValue;
+      return this.manhattanMetricValue + depth;
     }
 
     public boolean isGoal() {

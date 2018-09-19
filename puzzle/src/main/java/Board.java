@@ -5,12 +5,7 @@ public class Board {
   private int[][] blocks;
   private int size;
   private int manhattanMetricValue;
-  private int movesPrior;
 
-  private Board(int[][] blocks, int movesPrior){
-    this(blocks);
-    this.manhattanMetricValue = this.manhattanMetricValue+movesPrior;
-  }
   public Board(int[][] blocks) {
     // let's do assertions and copy the stuff locally
     this.size = blocks.length;
@@ -41,17 +36,17 @@ public class Board {
         }
       }
     }
-    manhattanMetricValue = calculateManhattanMetricValue();
+    calculateManhattanMetricValue();
   }           // construct a board from an n-by-n array of blocks
 
-  private int calculateManhattanMetricValue() {
+  private void calculateManhattanMetricValue() {
     int manhattanMetric = 0;
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
         manhattanMetric += manhattanDistance(i, j);
       }
     }
-    return manhattanMetric;
+    this.manhattanMetricValue = manhattanMetric;
   }
 
   // (where blocks[i][j] = block in row i, column j)
@@ -154,7 +149,13 @@ public class Board {
     return true;
   }        // does this board equal y?
 
-  public Iterable<Board> neighbors() {
+  public Iterable<Board> neighbors(){
+  //  return this.neighbors;
+    final List<Board> n = calculateNeighbors();
+    return n;
+  }
+
+  private List<Board> calculateNeighbors() {
     List<Board> neighbors = new ArrayList<>();
     final int emptyIndex = findEmptyIndex();
     final int emptyI = emptyIndex / this.size;
@@ -186,24 +187,29 @@ public class Board {
     return neighbors;
   } // all neighboring boards
 
+
   private void swapTop(int i, int j) {
     this.blocks[i][j] = this.blocks[i - 1][j];
     this.blocks[i - 1][j] = 0;
+    this.calculateManhattanMetricValue();
   }
 
   private void swapBottom(int i, int j) {
     this.blocks[i][j] = this.blocks[i + 1][j];
     this.blocks[i + 1][j] = 0;
+    this.calculateManhattanMetricValue();
   }
 
   private void swapLeft(int i, int j) {
     this.blocks[i][j] = this.blocks[i][j - 1];
     this.blocks[i][j - 1] = 0;
+    this.calculateManhattanMetricValue();
   }
 
   private void swapRight(int i, int j) {
     this.blocks[i][j] = this.blocks[i][j + 1];
     this.blocks[i][j + 1] = 0;
+    this.calculateManhattanMetricValue();
   }
 
   private int findIndex(int element) {

@@ -115,6 +115,14 @@ class BoardTest extends Specification {
         b.manhattan()==18
     }
 
+    def "manhattan4"(){
+        when:
+        def blocks = [[5,8,7],[1,4,6],[0,3,2]] as int[][]
+        def b = new Board(blocks)
+        then:
+        b.manhattan()==16
+    }
+
 
     /* can't be tested since it's private
     def "manhattanDistance1"(){
