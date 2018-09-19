@@ -128,6 +128,11 @@ public class Board {
       return false;
     }
     Board that = (Board) y;
+
+    if( this.size != that.size){
+      return false;
+    }
+
     for (int i = 0; i < this.size; i++) {
       for (int j = 0; j < this.size; j++) {
         if (that.blocks[i][j] != this.blocks[i][j]) {

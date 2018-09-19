@@ -7,8 +7,9 @@ class SolverTest extends Specification {
         def b = new Board(blocks)
         def s = new Solver(b)
         then:
+        s.solution().size() == 4
         s.isSolvable()
-        s.moves() == 4
+        s.moves() == 5
     }
 
     def "dual construction"(){
