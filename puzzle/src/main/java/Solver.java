@@ -4,48 +4,86 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solver {
-  private final Node initial;
-  private MinPQ<Node> queue;
+  private Puzzle originalPuzzle;
+  private Puzzle modifiedPuzzle;
 
-  public Solver(Board initial) {
-    this.initial = new Node(initial,0);
-    this.queue = new MinPQ<>();
-    queue.insert(this.initial);
+  public Solver(Board initialBoard) {
+    if( initialBoard == null ){
+      throw new IllegalArgumentException();
+    }
+    this.originalPuzzle = new Puzzle(initialBoard);
+    this.modifiedPuzzle = new Puzzle(initialBoard.twin());
+
+    while (!originalPuzzle.isSolved() && !modifiedPuzzle.isSolved()) {
+      originalPuzzle.makeStep();
+      modifiedPuzzle.makeStep();
+    }
 
   }          // find a solution to the initial board (using the A* algorithm)
 
-  public boolean isSolvable() {
 
-    return false;
+  public boolean isSolvable() {
+    return originalPuzzle.isSolved();
   }           // is the initial board solvable?
 
   public int moves() {
-    return 0;
+    if( originalPuzzle.isSolved()) {
+      return originalPuzzle.solution.size();
+    }
+    else{
+      return -1;
+    }
   }                     // min number of moves to solve initial board; -1 if unsolvable
 
   public Iterable<Board> solution() {
-    List<Board> solution = new ArrayList<>();
-    Board predecessor = null;
+    if( originalPuzzle.isSolved()){
+      return originalPuzzle.solution();
+    }
+    else{
+      return null;
+    }
+  }     // sequence of boards in a shortest solution; null if unsolvable
 
-    while (!this.queue.min().isGoal()) {
+  public static void main(String[] args) {
+
+  } // solve a slider puzzle (given below)
+
+  private class Puzzle {
+    private final Node initial;
+    private MinPQ<Node> queue;
+    private List<Board> solution;
+    private Board predecessor;
+
+    Puzzle(Board initialBoard) {
+      this.initial = new Node(initialBoard, 0);
+      this.queue = new MinPQ<>();
+      queue.insert(this.initial);
+      this.solution = new ArrayList<>();
+      this.predecessor = null;
+    }
+
+    public void makeStep() {
+
       Node min = this.queue.delMin();
       solution.add(min.board);
       for (Node neighbor : min.neighbors()) {
         // first optimization
-        if( predecessor == null || (
+        if (predecessor == null || (
             predecessor != null && !predecessor.equals(neighbor.board))) {
           this.queue.insert(neighbor);
         }
       }
       predecessor = min.board;
     }
-    solution.add(this.queue.min().board);
-    return solution;
-  }     // sequence of boards in a shortest solution; null if unsolvable
 
-  public static void main(String[] args) {
+    public boolean isSolved() {
+      return this.queue.min().isGoal();
+    }
 
-  } // solve a slider puzzle (given below)
+    public Iterable<Board> solution() {
+      return solution;
+    }
+  }
 
   private class Node implements Comparable<Node> {
     private Board board;
@@ -58,21 +96,21 @@ public class Solver {
 
     @Override
     public int compareTo(Node that) {
-      return Integer.compare(this.metric(),that.metric());
+      return Integer.compare(this.metric(), that.metric());
     }
 
     private int metric() {
       return this.depth + this.board.hamming();
     }
 
-    public boolean isGoal(){
+    public boolean isGoal() {
       return this.board.isGoal();
     }
 
-    public List<Node> neighbors(){
+    public List<Node> neighbors() {
       List<Node> neighbors = new ArrayList<>();
-      for( Board board : this.board.neighbors()){
-        neighbors.add( new Node( board, this.depth+1 ));
+      for (Board board : this.board.neighbors()) {
+        neighbors.add(new Node(board, this.depth + 1));
       }
       return neighbors;
     }

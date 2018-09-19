@@ -97,7 +97,30 @@ public class Board {
   }
 
   public Board twin() {
-    return neighbors().iterator().next();
+    int[][] newBlocks = new int[this.size][this.size];
+
+    for( int i=0;i<this.size; i++){
+      for( int j=0; j<this.size;j++){
+        newBlocks[i][j] = this.blocks[i][j];
+      }
+    }
+    if(newBlocks[0][0]==0){
+      int aux = newBlocks[0][1];
+      newBlocks[0][1]=newBlocks[0][2];
+      newBlocks[0][2]=aux;
+    }
+    else if(newBlocks[0][1]==0){
+      int aux = newBlocks[0][0];
+      newBlocks[0][0]=newBlocks[0][2];
+      newBlocks[0][2]=aux;
+    }
+    else{
+      int aux = newBlocks[0][0];
+      newBlocks[0][0]=newBlocks[0][1];
+      newBlocks[0][1]=aux;
+    }
+    Board newBoard = new Board(newBlocks);
+    return newBoard;
   }                    // a board that is obtained by exchanging any pair of blocks
 
   public boolean equals(Object y) {
