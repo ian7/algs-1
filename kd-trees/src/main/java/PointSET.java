@@ -42,25 +42,42 @@ public class PointSET {
   }                        // draw all points to standard draw
 
   public Iterable<Point2D> range(RectHV rect) {
-    if (rect==null){
+    if (rect == null) {
       throw new IllegalArgumentException();
     }
 
     List<Point2D> ps = new ArrayList<>();
 
     Iterator<Point2D> i = this.points.iterator();
-    while( i.hasNext() ){
-
+    while (i.hasNext()) {
+        Point2D p = i.next();
+        if( rect.contains(p) ){
+          ps.add(p);
+        }
     }
-
-    return null;
+    return ps;
   }             // all points that are inside the rectangle (or on the boundary)
 
   public Point2D nearest(Point2D p) {
     if (p==null){
       throw new IllegalArgumentException();
     }
-    return null;
+    Point2D nearest = null;
+    double nearestDistance = 0;
+
+    Iterator<Point2D> i = this.points.iterator();
+
+    while (i.hasNext()) {
+      Point2D nextPoint = i.next();
+      double nextPointDistance = nextPoint.distanceTo(p);
+
+      if( nearest == null ||
+          nearestDistance > nextPointDistance ){
+        nearest = nextPoint;
+        nearestDistance = nextPointDistance;
+      }
+    }
+    return nearest;
   }             // a nearest neighbor in the set to point p; null if the set is empty
 
   public static void main(String[] args) {
