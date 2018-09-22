@@ -8,14 +8,15 @@ import java.util.List;
 
 public class PointSET {
   private int size;
-  private SET<Point2D> points;
+  private final SET<Point2D> points;
+
   public PointSET() {
     this.size = 0;
     this.points = new SET<>();
   }                              // construct an empty set of points
 
   public boolean isEmpty() {
-    return this.size==0;
+    return this.size == 0;
   }                      // is the set empty?
 
   public int size() {
@@ -23,7 +24,7 @@ public class PointSET {
   }                        // number of points in the set
 
   public void insert(Point2D p) {
-    if (p==null){
+    if (p == null) {
       throw new IllegalArgumentException();
     }
     this.points.add(p);
@@ -31,7 +32,7 @@ public class PointSET {
   }              // add the point to the set (if it is not already in the set)
 
   public boolean contains(Point2D p) {
-    if (p==null){
+    if (p == null) {
       throw new IllegalArgumentException();
     }
     return (this.points.contains(p));
@@ -50,16 +51,16 @@ public class PointSET {
 
     Iterator<Point2D> i = this.points.iterator();
     while (i.hasNext()) {
-        Point2D p = i.next();
-        if( rect.contains(p) ){
-          ps.add(p);
-        }
+      Point2D p = i.next();
+      if (rect.contains(p)) {
+        ps.add(p);
+      }
     }
     return ps;
   }             // all points that are inside the rectangle (or on the boundary)
 
   public Point2D nearest(Point2D p) {
-    if (p==null){
+    if (p == null) {
       throw new IllegalArgumentException();
     }
     Point2D nearest = null;
@@ -69,10 +70,10 @@ public class PointSET {
 
     while (i.hasNext()) {
       Point2D nextPoint = i.next();
-      double nextPointDistance = nextPoint.distanceTo(p);
+      double nextPointDistance = nextPoint.distanceSquaredTo(p);
 
-      if( nearest == null ||
-          nearestDistance > nextPointDistance ){
+      if (nearest == null ||
+          nearestDistance > nextPointDistance) {
         nearest = nextPoint;
         nearestDistance = nextPointDistance;
       }
