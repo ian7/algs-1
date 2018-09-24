@@ -73,12 +73,12 @@ class KdTreeTest extends Specification {
         given:
         def s = new KdTree()
         def p1 = new Point2D(0, 0)
-        def p2 = new Point2D(3, 3)
-        def p3 = new Point2D(0, 3)
-        def p4 = new Point2D(3, 0)
-        def p5 = new Point2D(2, 0)
-        def p6 = new Point2D(0, 2)
-        def p7 = new Point2D(2, 2)
+        def p2 = new Point2D(0.3, 0.3)
+        def p3 = new Point2D(0, 0.3)
+        def p4 = new Point2D(0.3, 0)
+        def p5 = new Point2D(0.2, 0.0)
+        def p6 = new Point2D(0, 0.2)
+        def p7 = new Point2D(0.2, 0.2)
 
         when:
         s.insert(p1)
@@ -90,8 +90,8 @@ class KdTreeTest extends Specification {
         s.insert(p7)
 
         then:
-        s.range(new RectHV(1, 1, 2, 2)).size() == 1
-        s.range(new RectHV(1, 1, 2, 2)).iterator().next() == p7
+        s.range(new RectHV(0.1, 0.1, 0.2, 0.2)).size() == 1
+        s.range(new RectHV(0.1, 0.1, 0.2, 0.2)).iterator().next() == p7
     }
 
     def "check nearest"() {
@@ -122,6 +122,77 @@ class KdTreeTest extends Specification {
         0   | 0.5 | 0 | 0
         10  | 10  | 3 | 3
         2.1 | 2.3 | 2 | 2
+    }
+
+    def "get root rectangle"(){
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.2, 0.2)
+        t.insert(p1)
+        expect:
+        t.getRoot().getRectangle().equals( new RectHV(0,0,1,1))
+        t.getRoot().isHorizontal() == false
+    }
+
+    def "get left rectangle"(){
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.2, 0.2)
+        def p2 = new Point2D(0.1, 0.1)
+        t.insert(p1)
+        t.insert(p2)
+        expect:
+        t.getRoot().left != null
+        t.getRoot().right == null
+        t.getRoot().left.getRectangle().equals( new RectHV(0,0,0.2,1))
+    }
+
+    def "get right rectangle"(){
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.2, 0.2)
+        def p2 = new Point2D(0.3, 0.1)
+        t.insert(p1)
+        t.insert(p2)
+        expect:
+        t.getRoot().left == null
+        t.getRoot().right != null
+        t.getRoot().right.getRectangle().equals( new RectHV(0.2,0,1,1))
+    }
+
+    def "get bottom rectangle"(){
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.7, 0.2)
+        def p2 = new Point2D(0.5, 0.4)
+        def p3 = new Point2D(0.2, 0.3)
+        t.insert(p1)
+        t.insert(p2)
+        t.insert(p3)
+        expect:
+        t.getRoot().left != null
+        t.getRoot().right == null
+        t.getRoot().left.left != null
+        t.getRoot().left.left.getRectangle().equals( new RectHV(0.0,0,0.7,0.4))
+    }
+
+    def "get top rectangle"(){
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.7, 0.2)
+        def p2 = new Point2D(0.5, 0.4)
+        def p3 = new Point2D(0.2, 0.3)
+        def p4 = new Point2D(0.4, 0.7)
+        t.insert(p1)
+        t.insert(p2)
+        t.insert(p3)
+        t.insert(p4)
+        expect:
+        t.getRoot().left != null
+        t.getRoot().right == null
+        t.getRoot().left.left != null
+        t.getRoot().left.right != null
+        t.getRoot().left.right.getRectangle().equals( new RectHV(0.0,0.4,0.7,1))
     }
 
 
