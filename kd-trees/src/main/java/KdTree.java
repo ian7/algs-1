@@ -99,7 +99,7 @@ public class KdTree {
       throw new IllegalArgumentException();
     }
 
-    return null;
+    return this.getRoot().exploreNearest(p);
   }             // a nearest neighbor in the set to point p; null if the set is empty
 
   public static void main(String[] args) {
@@ -209,19 +209,6 @@ public class KdTree {
         }
       }
     }
-    public List<KdNode> explore(RectHV rectHV){
-      List<KdNode> nodes = new ArrayList<>();
-      if( left != null && left.getRectangle().intersects( rectHV )){
-        nodes.addAll(left.explore(rectHV));
-      }
-      if( right != null && right.getRectangle().intersects( rectHV )){
-        nodes.addAll(right.explore(rectHV));
-      }
-      if( rectHV.contains(point)){
-        nodes.add(this);
-      }
-      return nodes;
-    }
 
     public List<Point2D> explorePoints(RectHV rectHV){
       List<Point2D> points = new ArrayList<>();
@@ -235,6 +222,18 @@ public class KdTree {
         points.add(this.point);
       }
       return points;
+    }
+
+    public Point2D exploreNearest(Point2D p ){
+      Point2D best = this.point;
+
+      if( left != null && this.left.point.distanceSquaredTo(p) < best.distanceSquaredTo(p)){
+        best = left.exploreNearest(p);
+      }
+      if( right != null && this.right.point.distanceSquaredTo(p) < best.distanceSquaredTo(p)){
+        best = right.exploreNearest(p);
+      }
+      return best;
     }
 
   }
