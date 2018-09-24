@@ -22,6 +22,19 @@ class KdTreeTest extends Specification {
         s.size() == 1
     }
 
+    def "add one point twice"() {
+        given:
+        def s = new KdTree()
+        def p = new Point2D(1, 2)
+
+        when:
+        s.insert(p)
+        s.insert(p)
+        then:
+        s.isEmpty() == false
+        s.size() == 1
+    }
+
     def "add two points"() {
         given:
         def s = new KdTree()
@@ -112,12 +125,36 @@ class KdTreeTest extends Specification {
         t.nearest(new Point2D(x, y)) == new Point2D(a, b)
 
         where:
-        x    | y    | a   | b
-        0.1  | 0.1  | 0.2 | 0.3
-        0.9  | 0.1  | 0.7 | 0.2
-        0.1  | 0.9  | 0.4 | 0.7
-        0.9  | 0.9  | 0.9 | 0.6
+        x     | y     | a   | b
+        0.535 | 0.431 | 0.5 | 0.4
+        0.1   | 0.1   | 0.2 | 0.3
+        0.9   | 0.1   | 0.7 | 0.2
+        0.1   | 0.9   | 0.4 | 0.7
+        0.9   | 0.9   | 0.9 | 0.6
     }
+
+    def "check nearest 2"() {
+        given:
+        def t = new KdTree()
+        def p1 = new Point2D(0.875, 0.625)
+        def p2 = new Point2D(0.5, 1)
+        def p3 = new Point2D(0.0, 0.125)
+        def p4 = new Point2D(0.75, 0.375)
+        def p5 = new Point2D(0.125, 0.875)
+        t.insert(p1)
+        t.insert(p2)
+        t.insert(p3)
+        t.insert(p4)
+        t.insert(p5)
+
+        expect:
+        t.nearest(new Point2D(x, y)) == new Point2D(a, b)
+
+        where:
+        x     | y | a    | b
+        0.625 | 0 | 0.75 | 0.375
+    }
+
 
     def "get root rectangle"() {
         given:
