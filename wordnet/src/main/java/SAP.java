@@ -6,22 +6,15 @@ import java.util.HashMap;
 public class SAP {
   private final Digraph digraph;
   private final int size;
-  private Queue<Integer> queueLeft;
-  private Queue<Integer> queueRight;
   private DistanceMap distancesLeft;
   private DistanceMap distancesRight;
 
-  private class DistanceMap extends HashMap<Integer, Integer> {
-  }
-
-  ;
+  private class DistanceMap extends HashMap<Integer, Integer> {;};
 
   // constructor takes a digraph (not necessarily a DAG)
   public SAP(Digraph G) {
     this.digraph = new Digraph(G);
     this.size = G.V();
-    this.queueLeft = new Queue<>();
-    this.queueRight = new Queue<>();
     this.distancesLeft = new DistanceMap();
     this.distancesRight = new DistanceMap();
   }

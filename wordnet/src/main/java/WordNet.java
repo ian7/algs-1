@@ -1,7 +1,8 @@
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Topological;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,23 +11,23 @@ public class WordNet {
   private HashMap<Integer, String[]> nounHash;
   private HashMap<String, List<Integer>> reverseNounHash;
   private final Digraph digraph;
-  private final int graphSize;
+  private final SAP sap;
 
   // constructor takes the name of the two input files
   public WordNet(String synsets, String hypernyms) {
     if (synsets == null || hypernyms == null) {
       throw new IllegalArgumentException();
     }
-    this.graphSize = loadNouns(synsets);
-    this.digraph = new Digraph(this.graphSize);
+    final int graphSize = loadNouns(synsets);
+    this.digraph = new Digraph(graphSize);
     loadHypernyms(hypernyms);
+    this.sap = new SAP(this.digraph);
 
-/*    DirectedCycle dc = new DirectedCycle(this.digraph);
-    //Topological t = new Topological(this.digraph);
-    if( dc.hasCycle() ) {//|| !t.hasOrder()){
+    DirectedCycle dc = new DirectedCycle(this.digraph);
+    Topological t = new Topological(this.digraph);
+    if (dc.hasCycle() || !t.hasOrder()) {
       throw new IllegalArgumentException();
     }
-    */
   }
 
   private int loadNouns(String synsets) {
@@ -45,14 +46,13 @@ public class WordNet {
       final String[] splitSynset = line[1].split("\\s+");
       this.nounHash.put(synsetId, splitSynset);
 
-      for( String s : splitSynset ) {
-        if( this.reverseNounHash.containsKey(s) ){
+      for (String s : splitSynset) {
+        if (this.reverseNounHash.containsKey(s)) {
           this.reverseNounHash.get(s).add(synsetId);
-        }
-        else{
+        } else {
           ArrayList<Integer> il = new ArrayList<>();
           il.add(synsetId);
-          this.reverseNounHash.put(s,il);
+          this.reverseNounHash.put(s, il);
         }
       }
       rawLine = in.readLine();
@@ -91,6 +91,9 @@ public class WordNet {
 
   // is the word a WordNet noun?
   public boolean isNoun(String word) {
+    if (word == null) {
+      throw new IllegalArgumentException();
+    }
     return this.reverseNounHash.containsKey(word);
   }
 
@@ -99,26 +102,24 @@ public class WordNet {
     List<Integer> indicesA = stringToIndices(nounA);
     List<Integer> indicesB = stringToIndices(nounB);
 
-    if (indicesA.size() == 0 || indicesB.size() == 0) {
+    if (indicesA.isEmpty() || indicesB.isEmpty()) {
       throw new IllegalArgumentException();
     }
-
-    final SAP sap = new SAP(this.digraph);
 
     return sap.length(indicesA, indicesB);
   }
 
-  private List<Integer> stringToIndices(String string){
-    if( string == null ){
+  private List<Integer> stringToIndices(String string) {
+    if (string == null) {
       throw new IllegalArgumentException();
     }
 
     final String[] splitString = string.split("\\s+");
     final ArrayList<Integer> indices = new ArrayList<>();
 
-    for( String s : splitString ){
-      if( this.reverseNounHash.containsKey( s) ){
-        for( Integer i : this.reverseNounHash.get(s)){
+    for (String s : splitString) {
+      if (this.reverseNounHash.containsKey(s)) {
+        for (Integer i : this.reverseNounHash.get(s)) {
           indices.add(i);
         }
       }
@@ -132,15 +133,14 @@ public class WordNet {
     List<Integer> indicesA = stringToIndices(nounA);
     List<Integer> indicesB = stringToIndices(nounB);
 
-    if (indicesA.size() == 0 || indicesB.size() == 0) {
+    if (indicesA.isEmpty() || indicesB.isEmpty()) {
       throw new IllegalArgumentException();
     }
-    final SAP sap = new SAP(this.digraph);
 
     final int ancestorId = sap.ancestor(indicesA, indicesB);
     if (ancestorId != -1) {
       StringBuilder sb = new StringBuilder();
-      for( String s : this.nounHash.get(ancestorId) ){
+      for (String s : this.nounHash.get(ancestorId)) {
         sb.append(s);
         sb.append(" ");
       }
