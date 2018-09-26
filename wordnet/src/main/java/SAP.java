@@ -7,10 +7,12 @@ import java.util.HashMap;
 
 public class SAP {
   private final Digraph digraph;
+  private final int size;
 
   // constructor takes a digraph (not necessarily a DAG)
   public SAP(Digraph G){
     this.digraph = G;
+    this.size = G.V();
   }
 
   // length of shortest ancestral path between v and w; -1 if no such path
@@ -37,11 +39,13 @@ public class SAP {
   public int length(Iterable<Integer> v, Iterable<Integer> w) {
     Queue<Integer> queueLeft = new Queue<>();
     for (Integer i : v) {
+      checkIndex(i);
       queueLeft.enqueue(i);
     }
 
     Queue<Integer> queueRight = new Queue<>();
     for (Integer i : w) {
+      checkIndex(i);
       queueRight.enqueue(i);
     }
 
@@ -92,15 +96,26 @@ public class SAP {
     return length;
   }
 
+  private void checkIndex( Integer i ){
+    if( i == null || i < 0 || i >= this.size){
+      throw new IllegalArgumentException();
+    }
+  }
+
   // a common ancestor that participates in shortest ancestral path; -1 if no such path
   public int ancestor(Iterable<Integer> v, Iterable<Integer> w){
     Queue<Integer> queueLeft = new Queue<>();
     for (Integer i : v) {
+      checkIndex(i);
       queueLeft.enqueue(i);
     }
 
     Queue<Integer> queueRight = new Queue<>();
     for (Integer i : w) {
+      if( i == null ){
+        checkIndex(i);
+        throw new IllegalArgumentException();
+      }
       queueRight.enqueue(i);
     }
 
