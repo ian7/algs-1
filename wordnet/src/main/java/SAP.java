@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.DirectedCycle;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.Topological;
 
 import java.util.HashMap;
 
@@ -13,9 +13,14 @@ public class SAP {
   public SAP(Digraph G) {
     this.digraph = G;
     this.size = G.V();
+    DirectedCycle dc = new DirectedCycle(this.digraph);
+    //Topological t = new Topological(this.digraph);
+    if( dc.hasCycle() ) {//|| !t.hasOrder()){
+      throw new IllegalArgumentException();
+    }
   }
 
-  // length of shortest ancestral path between v and w; -1 if no such path
+  // length of shortest ancestral path bfetween v and w; -1 if no such path
   public int length(int v, int w) {
     final Queue<Integer> queueLeft = new Queue<>();
     final Queue<Integer> queueRight = new Queue<>();
@@ -111,10 +116,7 @@ public class SAP {
 
     Queue<Integer> queueRight = new Queue<>();
     for (Integer i : w) {
-      if (i == null) {
-        checkIndex(i);
-        throw new IllegalArgumentException();
-      }
+      checkIndex(i);
       queueRight.enqueue(i);
     }
 
@@ -167,6 +169,6 @@ public class SAP {
 
   // do unit testing of this class
   public static void main(String[] args) {
-
+    // nothing here
   }
 }

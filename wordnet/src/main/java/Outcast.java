@@ -1,5 +1,5 @@
 public class Outcast {
-  private static WordNet wordNet;
+  private final WordNet wordNet;
 
   public Outcast(WordNet wordnet) {
     this.wordNet = wordnet;
@@ -34,6 +34,6 @@ public class Outcast {
   }  // given an array of WordNet nouns, return an outcast
 
   public static void main(String[] args) {
-
+    // nothing here
   }  // see test client below
 }

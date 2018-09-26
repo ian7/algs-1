@@ -1,9 +1,7 @@
 import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class WordNet {
   private HashMap<Integer, String> nounHash;
@@ -12,7 +10,7 @@ public class WordNet {
   private final int graphSize;
 
   // constructor takes the name of the two input files
-  public WordNet(String synsets, String hypernyms) throws FileNotFoundException {
+  public WordNet(String synsets, String hypernyms) {
     if (synsets == null || hypernyms == null) {
       throw new IllegalArgumentException();
     }
@@ -22,35 +20,36 @@ public class WordNet {
 
   }
 
-  private int loadNouns(String synsets) throws FileNotFoundException {
+  private int loadNouns(String synsets) {
 
     this.nounHash = new HashMap<>();
     this.reverseNounHash = new HashMap<>();
 
     // pass the path to the file as a parameter
-    final File file = new File(synsets);
-    final Scanner sc = new Scanner(file);
+    final In in = new In(synsets);
+    String rawLine = in.readLine();
 
-    while (sc.hasNextLine()) {
-      final String[] line = sc.nextLine().split(",", 3);
+    while (rawLine != null) {
+      final String[] line = rawLine.split(",", 3);
 
       final Integer synsetId = Integer.valueOf(line[0]);
       final String synset = line[1];
       this.nounHash.put(synsetId, synset);
       this.reverseNounHash.put(synset, synsetId);
+      rawLine = in.readLine();
     }
     return nounHash.size();
   }
 
-  private void loadHypernyms(String hypernyms) throws FileNotFoundException {
+  private void loadHypernyms(String hypernyms) {
 
 
     // pass the path to the file as a parameter
-    final File file = new File(hypernyms);
-    final Scanner sc = new Scanner(file);
+    final In in = new In(hypernyms);
+    String rawLine = in.readLine();
 
-    while (sc.hasNextLine()) {
-      final String[] line = sc.nextLine().split(",", 2);
+    while (rawLine != null) {
+      final String[] line = rawLine.split(",", 2);
 
       final Integer synsetId = Integer.valueOf(line[0]);
 
@@ -62,6 +61,7 @@ public class WordNet {
           this.digraph.addEdge(synsetId, hypernymId);
         }
       }
+      rawLine = in.readLine();
     }
   }
 
@@ -109,6 +109,6 @@ public class WordNet {
 
   // do unit testing of this class
   public static void main(String[] args) {
-
+    // nothing here
   }
 }
