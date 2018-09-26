@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class WordNet {
-  private HashMap<Integer,String> nounHash;
-  private HashMap<String,Integer> reverseNounHash;
+  private HashMap<Integer, String> nounHash;
+  private HashMap<String, Integer> reverseNounHash;
   private final Digraph digraph;
   private final int graphSize;
 
   // constructor takes the name of the two input files
   public WordNet(String synsets, String hypernyms) throws FileNotFoundException {
-    if( synsets == null || hypernyms == null ){
+    if (synsets == null || hypernyms == null) {
       throw new IllegalArgumentException();
     }
     this.graphSize = loadNouns(synsets);
@@ -31,14 +31,14 @@ public class WordNet {
     final File file = new File(synsets);
     final Scanner sc = new Scanner(file);
 
-      while (sc.hasNextLine()) {
-        final String[] line = sc.nextLine().split(",",3);
+    while (sc.hasNextLine()) {
+      final String[] line = sc.nextLine().split(",", 3);
 
-        final Integer synsetId = Integer.valueOf(line[0]);
-        final String synset = line[1];
-        this.nounHash.put(synsetId, synset);
-        this.reverseNounHash.put(synset,synsetId);
-      }
+      final Integer synsetId = Integer.valueOf(line[0]);
+      final String synset = line[1];
+      this.nounHash.put(synsetId, synset);
+      this.reverseNounHash.put(synset, synsetId);
+    }
     return nounHash.size();
   }
 
@@ -49,17 +49,17 @@ public class WordNet {
     final File file = new File(hypernyms);
     final Scanner sc = new Scanner(file);
 
-    while (sc.hasNextLine()){
-      final String[] line = sc.nextLine().split(",",2);
+    while (sc.hasNextLine()) {
+      final String[] line = sc.nextLine().split(",", 2);
 
       final Integer synsetId = Integer.valueOf(line[0]);
 
-      if( line.length > 1 ) {
+      if (line.length > 1) {
         // if there are any hypernyms after all
         final String[] hypernymStrings = line[1].split(",");
         for (String hymernymString : hypernymStrings) {
           final Integer hypernymId = Integer.valueOf(hymernymString);
-          this.digraph.addEdge(synsetId,hypernymId);
+          this.digraph.addEdge(synsetId, hypernymId);
         }
       }
     }
@@ -77,8 +77,8 @@ public class WordNet {
 
   // distance between nounA and nounB (defined below)
   public int distance(String nounA, String nounB) {
-    if( !this.reverseNounHash.containsKey(nounA) ||
-        !this.reverseNounHash.containsKey(nounB)){
+    if (!this.reverseNounHash.containsKey(nounA) ||
+        !this.reverseNounHash.containsKey(nounB)) {
       throw new IllegalArgumentException();
     }
 
@@ -86,25 +86,24 @@ public class WordNet {
     final int nounBId = this.reverseNounHash.get(nounB);
     final SAP sap = new SAP(this.digraph);
 
-    return sap.length(nounAId,nounBId);
+    return sap.length(nounAId, nounBId);
   }
 
   // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
   // in a shortest ancestral path (defined below)
   public String sap(String nounA, String nounB) {
-    if( !this.reverseNounHash.containsKey(nounA) ||
-      !this.reverseNounHash.containsKey(nounB)){
+    if (!this.reverseNounHash.containsKey(nounA) ||
+        !this.reverseNounHash.containsKey(nounB)) {
       throw new IllegalArgumentException();
     }
     final int nounAId = this.reverseNounHash.get(nounA);
     final int nounBId = this.reverseNounHash.get(nounB);
     final SAP sap = new SAP(this.digraph);
 
-    final int ancestorId = sap.ancestor(nounAId,nounBId);
-    if( ancestorId != -1 ){
+    final int ancestorId = sap.ancestor(nounAId, nounBId);
+    if (ancestorId != -1) {
       return this.nounHash.get(ancestorId);
-    }
-    else
+    } else
       return null;
   }
 
