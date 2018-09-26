@@ -21,4 +21,22 @@ class WordNetTest extends Specification {
         expect:
         wn.nounHash.size() > 0
     }
+    def "distance"(){
+        given:
+        def wn = new WordNet("synsets.txt","hypernyms.txt")
+        expect:
+        wn.distance("optimist","Crocodylia") == 11
+    }
+    def "distance2"(){
+        given:
+        def wn = new WordNet("synsets.txt","hypernyms.txt")
+        expect:
+        wn.distance("whole unit","person individual someone somebody mortal soul") == 3
+    }
+    def "distance3"(){
+        given:
+        def wn = new WordNet("synsets.txt","hypernyms.txt")
+        expect:
+        wn.distance("Carlos_Fuentes","rocker") == 6
+    }
 }

@@ -1,11 +1,14 @@
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class WordNet {
-  private HashMap<Integer, String> nounHash;
-  private HashMap<String, Integer> reverseNounHash;
+  private HashMap<Integer, String[]> nounHash;
+  private HashMap<String, List<Integer>> reverseNounHash;
   private final Digraph digraph;
   private final int graphSize;
 
@@ -39,9 +42,19 @@ public class WordNet {
       final String[] line = rawLine.split(",", 3);
 
       final Integer synsetId = Integer.valueOf(line[0]);
-      final String synset = line[1];
-      this.nounHash.put(synsetId, synset);
-      this.reverseNounHash.put(synset, synsetId);
+      final String[] splitSynset = line[1].split("\\s+");
+      this.nounHash.put(synsetId, splitSynset);
+
+      for( String s : splitSynset ) {
+        if( this.reverseNounHash.containsKey(s) ){
+          this.reverseNounHash.get(s).add(synsetId);
+        }
+        else{
+          ArrayList<Integer> il = new ArrayList<>();
+          il.add(synsetId);
+          this.reverseNounHash.put(s,il);
+        }
+      }
       rawLine = in.readLine();
     }
     return nounHash.size();
@@ -73,7 +86,7 @@ public class WordNet {
 
   // returns all WordNet nounHash
   public Iterable<String> nouns() {
-    return this.nounHash.values();
+    return this.reverseNounHash.keySet();
   }
 
   // is the word a WordNet noun?
@@ -83,32 +96,55 @@ public class WordNet {
 
   // distance between nounA and nounB (defined below)
   public int distance(String nounA, String nounB) {
-    if (!this.reverseNounHash.containsKey(nounA) ||
-        !this.reverseNounHash.containsKey(nounB)) {
+    List<Integer> indicesA = stringToIndices(nounA);
+    List<Integer> indicesB = stringToIndices(nounB);
+
+    if (indicesA.size() == 0 || indicesB.size() == 0) {
       throw new IllegalArgumentException();
     }
 
-    final int nounAId = this.reverseNounHash.get(nounA);
-    final int nounBId = this.reverseNounHash.get(nounB);
     final SAP sap = new SAP(this.digraph);
 
-    return sap.length(nounAId, nounBId);
+    return sap.length(indicesA, indicesB);
+  }
+
+  private List<Integer> stringToIndices(String string){
+    if( string == null ){
+      throw new IllegalArgumentException();
+    }
+
+    final String[] splitString = string.split("\\s+");
+    final ArrayList<Integer> indices = new ArrayList<>();
+
+    for( String s : splitString ){
+      if( this.reverseNounHash.containsKey( s) ){
+        for( Integer i : this.reverseNounHash.get(s)){
+          indices.add(i);
+        }
+      }
+    }
+    return indices;
   }
 
   // a synset (second field of synsets.txt) that is the common ancestor of nounA and nounB
   // in a shortest ancestral path (defined below)
   public String sap(String nounA, String nounB) {
-    if (!this.reverseNounHash.containsKey(nounA) ||
-        !this.reverseNounHash.containsKey(nounB)) {
+    List<Integer> indicesA = stringToIndices(nounA);
+    List<Integer> indicesB = stringToIndices(nounB);
+
+    if (indicesA.size() == 0 || indicesB.size() == 0) {
       throw new IllegalArgumentException();
     }
-    final int nounAId = this.reverseNounHash.get(nounA);
-    final int nounBId = this.reverseNounHash.get(nounB);
     final SAP sap = new SAP(this.digraph);
 
-    final int ancestorId = sap.ancestor(nounAId, nounBId);
+    final int ancestorId = sap.ancestor(indicesA, indicesB);
     if (ancestorId != -1) {
-      return this.nounHash.get(ancestorId);
+      StringBuilder sb = new StringBuilder();
+      for( String s : this.nounHash.get(ancestorId) ){
+        sb.append(s);
+        sb.append(" ");
+      }
+      return sb.toString().trim();
     } else
       return null;
   }
