@@ -11,7 +11,10 @@ public class SAP {
   private DistanceMap distancesLeft;
   private DistanceMap distancesRight;
 
-  private class DistanceMap extends HashMap<Integer, Integer>{};
+  private class DistanceMap extends HashMap<Integer, Integer> {
+  }
+
+  ;
 
   // constructor takes a digraph (not necessarily a DAG)
   public SAP(Digraph G) {
@@ -41,40 +44,23 @@ public class SAP {
     return this.ancestor(paramLeft, paramRight);
   }
 
-  private void setQueues(Iterable<Integer> v, Iterable<Integer> w){
-    if (v == null || w == null) {
-      throw new IllegalArgumentException();
-    }
-    this.queueLeft = new Queue<>();
-    for (Integer i : v) {
-      checkIndex(i);
-      queueLeft.enqueue(i);
-    }
-
-    this.queueRight = new Queue<>();
-    for (Integer i : w) {
-      checkIndex(i);
-      queueRight.enqueue(i);
-    }
-
-  }
-
-  private DistanceMap traverse( Iterable<Integer> startingNodes ){
+  private DistanceMap traverse(Iterable<Integer> startingNodes) {
     DistanceMap distances = new DistanceMap();
 
     Queue<Integer> currentNodes = new Queue<>();
-    for( Integer i : startingNodes){
+    for (Integer i : startingNodes) {
+      checkIndex(i);
       currentNodes.enqueue(i);
     }
     int currentDistance = 0;
-    while( !currentNodes.isEmpty() ){
+    while (!currentNodes.isEmpty()) {
       Queue<Integer> nextNodes = new Queue<>();
-      for( Integer i : currentNodes ) {
+      for (Integer i : currentNodes) {
         if (!distances.containsKey(i)) {
           distances.put(i, currentDistance);
         }
-        for( Integer n : this.digraph.adj(i)){
-          if( !distances.containsKey(n) ) {
+        for (Integer n : this.digraph.adj(i)) {
+          if (!distances.containsKey(n)) {
             nextNodes.enqueue(n);
           }
         }
@@ -89,25 +75,23 @@ public class SAP {
   // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path
   public int length(Iterable<Integer> v, Iterable<Integer> w) {
 
-    if( this.ancestor(v,w) == -1 ){
+    if (this.ancestor(v, w) == -1) {
       return -1;
-    }
-    else{
-      return this.getDistance(this.ancestor(v,w));
+    } else {
+      return this.getDistance(this.ancestor(v, w));
     }
   }
 
   private void checkIndex(Integer i) {
-    if (i == null || i < 0 || i >= this.size) {
+    if (i == null || i < 0 || i > this.size) {
       throw new IllegalArgumentException();
     }
   }
 
-  private int getDistance( Integer index){
-    if( this.distancesLeft.containsKey(index) && this.distancesRight.containsKey(index)){
+  private int getDistance(Integer index) {
+    if (this.distancesLeft.containsKey(index) && this.distancesRight.containsKey(index)) {
       return (this.distancesLeft.get(index) + this.distancesRight.get(index));
-    }
-    else{
+    } else {
       return -1;
     }
   }
@@ -118,16 +102,16 @@ public class SAP {
       throw new IllegalArgumentException();
     }
     distancesLeft = traverse(v);
-    distancesRight= traverse(w);
+    distancesRight = traverse(w);
 
     int topAncestorIndex = -1;
     int topDistance = Integer.MAX_VALUE;
 
-    for( int i=0; i<this.size;i++){
+    for (int i = 0; i < this.size; i++) {
       final int newDistance = getDistance(i);
-      if( newDistance != -1 ){
+      if (newDistance != -1) {
         // so it is reachable from both
-        if( topDistance > newDistance ){
+        if (topDistance > newDistance) {
           topAncestorIndex = i;
           topDistance = newDistance;
         }
