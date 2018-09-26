@@ -9,7 +9,7 @@ public class Outcast {
     if (nouns == null || nouns.length == 0) {
       throw new IllegalArgumentException();
     }
-    int distance[] = new int[nouns.length];
+    int[] distance = new int[nouns.length];
 
     for (int i = 0; i < nouns.length; i++) {
       distance[i] = 0;

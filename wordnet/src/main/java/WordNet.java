@@ -18,6 +18,12 @@ public class WordNet {
     this.digraph = new Digraph(this.graphSize);
     loadHypernyms(hypernyms);
 
+/*    DirectedCycle dc = new DirectedCycle(this.digraph);
+    //Topological t = new Topological(this.digraph);
+    if( dc.hasCycle() ) {//|| !t.hasOrder()){
+      throw new IllegalArgumentException();
+    }
+    */
   }
 
   private int loadNouns(String synsets) {
