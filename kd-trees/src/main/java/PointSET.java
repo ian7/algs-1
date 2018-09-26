@@ -83,5 +83,7 @@ public class PointSET {
 
   public static void main(String[] args) {
 
+    // nothing done here - testing in spock
+
   }                // unit testing of the methods (optional)
 }

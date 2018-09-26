@@ -87,6 +87,8 @@ public class KdTree {
 
   public void draw() {
 
+    // nothing done here - testing in spock
+
   }                        // draw all points to standard draw
 
   public Iterable<Point2D> range(RectHV rect) {
@@ -114,13 +116,15 @@ public class KdTree {
 
   public static void main(String[] args) {
 
+    // nothing done here - testing in spock
+
   }                // unit testing of the methods (optional)
 
   private KdNode getRoot() {
     return this.root;
   }
 
-  private class KdNode implements Comparable<KdNode> {
+  private class KdNode  {
     private final KdNode predecessor;
     private final boolean isHorizontal;
     private final Point2D point;
@@ -130,10 +134,6 @@ public class KdTree {
 
     public KdNode(Point2D p) {
       this(p, null);
-    }
-
-    public boolean isHorizontal() {
-      return isHorizontal;
     }
 
     public KdNode(Point2D p, KdNode predecessor) {
@@ -147,6 +147,10 @@ public class KdTree {
       this.left = null;
       this.right = null;
       this.rectangle = calculateRectangle();
+    }
+
+    public boolean isHorizontal() {
+      return isHorizontal;
     }
 
     private RectHV calculateRectangle() {
@@ -187,18 +191,13 @@ public class KdTree {
       }
     }
 
-    @Override
-    public int compareTo(KdNode that) {
-      return (compareTo(that.point));
-    }
-
-    public int compareTo(Point2D point) {
+    public int compareTo(Point2D that) {
       if (this.isHorizontal) {
         // horizontal
-        return Double.compare(this.point.y(), point.y());
+        return Double.compare(this.point.y(), that.y());
       } else {
         // vertical
-        return Double.compare(this.point.x(), point.x());
+        return Double.compare(this.point.x(), that.x());
       }
 
     }
@@ -237,11 +236,8 @@ public class KdTree {
       return points;
     }
 
-    public Point2D exploreNearest(Point2D p) {
-      return exploreNearest(p, Double.POSITIVE_INFINITY);
-    }
 
-    public Point2D exploreNearest(Point2D p, double threshold) {
+    public Point2D exploreNearest(Point2D p) {
 
       double distance = this.point.distanceSquaredTo(p);
       Point2D best = this.point;
@@ -250,7 +246,7 @@ public class KdTree {
         double distanceToLeftRect = this.left.getRectangle().distanceSquaredTo(p);
         if (distanceToLeftRect < distance) {
           // explore
-          Point2D foundLeft = left.exploreNearest(p, 0);
+          Point2D foundLeft = left.exploreNearest(p);
           double bestDistanceLeft = foundLeft.distanceSquaredTo(p);
           if (bestDistanceLeft < distance) {
             best = foundLeft;
@@ -263,11 +259,10 @@ public class KdTree {
         double distanceToRightRect = this.right.getRectangle().distanceSquaredTo(p);
         if (distanceToRightRect < distance) {
           // explore
-          Point2D foundRight = right.exploreNearest(p, 0);
+          Point2D foundRight = right.exploreNearest(p);
           double bestDistanceRight = foundRight.distanceSquaredTo(p);
           if (bestDistanceRight < distance) {
             best = foundRight;
-            distance = bestDistanceRight;
           }
         }
 
