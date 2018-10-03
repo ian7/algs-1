@@ -69,5 +69,11 @@ class SeamCarverTest extends Specification {
         then:
         sc.findVerticalSeam() == [4,4,3,2,1] as int[]
     }
+    def "horizontal seam"(){
+        when:
+        def sc = new SeamCarver(new Picture("6x5.png"))
+        then:
+        sc.findHorizontalSeam() == [2,2,1,2,1,0] as int[]
+    }
 
 }

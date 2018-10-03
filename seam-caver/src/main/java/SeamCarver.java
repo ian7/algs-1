@@ -76,7 +76,48 @@ public class SeamCarver {
 
   // energy of pixel at column x and row y
   public int[] findHorizontalSeam() {
-    return null;
+     // let's initialize first collumn
+      for( int y=0;y<this.height();y++){
+        this.seamSums[index(0,y)] = energy(0,y);
+      }
+
+      // go through all the other rows
+      for (int x = 1; x < this.width(); x++){
+        for (int y = 0; y < this.height(); y++) {
+          int bestPredecessor = index(x-1,y);
+          if( y > 0  &&
+              this.seamSums[index(x-1,y-1)] < this.seamSums[bestPredecessor]){
+            bestPredecessor = index(x-1,y-1);
+          }
+          if( y < this.height()-1 &&
+              this.seamSums[index(x-1,y+1)] < this.seamSums[bestPredecessor]){
+            bestPredecessor = index(x-1,y+1);
+          }
+          this.pathTo[index(x,y)]=bestPredecessor;
+          this.seamSums[index(x,y)]=this.seamSums[bestPredecessor]+energy(x,y);
+        }
+      }
+
+      // find the lowest sum in the last row
+      int lowestSum=0;
+      for( int y=1;y<this.height();y++){
+        if( this.seamSums[index(this.width()-1,lowestSum)] >
+            this.seamSums[index(this.width()-1,y)]){
+          lowestSum = y;
+        }
+      }
+
+      // list the seam by traversing it backwards
+      int[] seamIndices = new int[this.width()];
+      int predecessorIndex = this.pathTo[index(this.width()-1,lowestSum)];
+      seamIndices[this.width()-1] = lowestSum;
+
+      for( int x=this.width()-2; x>=0; x--){
+        seamIndices[x] = predecessorIndex / this.width();
+        predecessorIndex = this.pathTo[predecessorIndex];
+      }
+
+      return seamIndices;
   }              // sequence of indices for horizontal seam
 
   public int[] findVerticalSeam() {
@@ -128,6 +169,7 @@ public class SeamCarver {
     if (seam == null) {
       throw new IllegalArgumentException();
     }
+
   }
 
   // remove horizontal seam from current picture
