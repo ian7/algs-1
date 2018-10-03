@@ -1,0 +1,31 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+group 'sonyx.net'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    compile('org.codehaus.groovy:groovy-all:2.5.0',
+            files('libs/algs4.jar')
+    )
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile(
+            files('libs/algs4.jar'),
+            'junit:junit:4.12',
+            'org.codehaus.groovy:groovy-all:2.5.0',
+            'org.spockframework:spock-core:1.0-groovy-2.4'
+    )
+}
+
+
