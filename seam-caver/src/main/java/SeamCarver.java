@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.Picture;
 import java.awt.*;
 
 public class SeamCarver {
-  private final Picture picture;
+  private Picture picture;
   private double weights[];
   private double seamSums[];
   private int pathTo[];
@@ -165,17 +165,44 @@ public class SeamCarver {
     return seamIndices;
   }                 // sequence of indices for vertical seam
 
+  @SuppressWarnings("Duplicates")
   public void removeHorizontalSeam(int[] seam) {
+    Picture newPicture = new Picture(this.width(), this.height()-1);
     if (seam == null) {
       throw new IllegalArgumentException();
     }
 
+    for( int x=0;x<this.width()-1;x++){
+      for( int y=0;y<this.height()-2;y++){
+        if( seam[x] < y ){
+          newPicture.set(x,y,this.picture.get(x,y));
+        }
+        else{
+          newPicture.set(x,y,this.picture.get(x,y+1));
+        }
+      }
+    }
+    this.picture = newPicture;
   }
 
   // remove horizontal seam from current picture
+  @SuppressWarnings("Duplicates")
   public void removeVerticalSeam(int[] seam) {
+    Picture newPicture = new Picture(this.width()-1, this.height());
     if (seam == null) {
       throw new IllegalArgumentException();
     }
+
+    for( int x=0;x<this.width()-2;x++){
+      for( int y=0;y<this.height()-1;y++){
+        if( seam[y] < x ){
+          newPicture.set(x,y,this.picture.get(x,y));
+        }
+        else{
+          newPicture.set(x,y,this.picture.get(x+1,y));
+        }
+      }
+    }
+    this.picture = newPicture;
   }     // remove vertical seam from current picture
 }
