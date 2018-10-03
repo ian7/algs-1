@@ -63,4 +63,11 @@ class SeamCarverTest extends Specification {
         sc.energy(1,2) == Math.sqrt(52024d)
         sc.energy(1,1) == Math.sqrt(52225d)
     }
+    def "vertical seam"(){
+        when:
+        def sc = new SeamCarver(new Picture("6x5.png"))
+        then:
+        sc.findVerticalSeam() == [4,4,3,2,1] as int[]
+    }
+
 }

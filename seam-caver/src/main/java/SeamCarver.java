@@ -1,47 +1,69 @@
-import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.Picture;
 
 import java.awt.*;
 
 public class SeamCarver {
   private final Picture picture;
-  Digraph digraph;
-  public SeamCarver(Picture picture){
-    if( picture == null ){
+  private double weights[];
+  private double seamSums[];
+  private int pathTo[];
+
+  public SeamCarver(Picture picture) {
+    if (picture == null) {
       throw new IllegalArgumentException();
     }
     this.picture = picture;
-    this.digraph = new Digraph(this.height()*this.width());
+    final int size = this.height() * this.width();
+    this.weights = new double[size];
+    this.pathTo = new int[size];
+    this.seamSums = new double[size];
+    this.fillIn();
   }                // create a seam carver object based on the given picture
-  private void fillDigraph(){
-    //this.digraph
-  }
-  public Picture picture(){
-    return picture;
-  }                          // current picture
-  public     int width(){
-    return picture.width();
-  }                            // width of current picture
-  public     int height() {
-    return picture.height();
-  }                          // height of current picture
-  public  double energy(int x, int y)  {
-    if( 0 == y || this.height()-1 == y ||
-        0 == x || this.width()-1 == x ){
-      return 1000;
+
+  private void fillIn() {
+    for (int y = 0; y < this.height() ; y++) {
+      for (int x = 0; x < this.width(); x++) {
+        final int focusedIndex = index(x, y);
+        this.weights[focusedIndex] = energy(x, y);
+        this.pathTo[focusedIndex] = -1;
+        this.seamSums[focusedIndex] = Integer.MAX_VALUE;
+      }
     }
-    return Math.sqrt(gradientX(x,y)+gradientY(x,y));
   }
 
-  private double gradientX(int x, int y){
-    final Color left = this.picture.get(x-1,y);
-    final Color right = this.picture.get(x+1,y);
+  private int index(int x, int y) {
+    return y * this.width() + x;
+  }
+
+  public Picture picture() {
+    return picture;
+  }                          // current picture
+
+  public int width() {
+    return picture.width();
+  }                            // width of current picture
+
+  public int height() {
+    return picture.height();
+  }                          // height of current picture
+
+  public double energy(int x, int y) {
+    if (0 == y || this.height() - 1 == y ||
+        0 == x || this.width() - 1 == x) {
+      return 1000;
+    }
+    return Math.sqrt(gradientX(x, y) + gradientY(x, y));
+  }
+
+  private double gradientX(int x, int y) {
+    final Color left = this.picture.get(x - 1, y);
+    final Color right = this.picture.get(x + 1, y);
     return gradient(left, right);
   }
 
-  private double gradientY(int x, int y){
-    final Color top = this.picture.get(x,y-1);
-    final Color bottom = this.picture.get(x,y+1);
+  private double gradientY(int x, int y) {
+    final Color top = this.picture.get(x, y - 1);
+    final Color bottom = this.picture.get(x, y + 1);
     return gradient(top, bottom);
   }
 
@@ -53,21 +75,65 @@ public class SeamCarver {
   }
 
   // energy of pixel at column x and row y
-  public   int[] findHorizontalSeam() {
+  public int[] findHorizontalSeam() {
     return null;
   }              // sequence of indices for horizontal seam
-  public   int[] findVerticalSeam(){
-    return null;
+
+  public int[] findVerticalSeam() {
+    // let's initialize first row
+    for( int x=0;x<this.width();x++){
+      this.seamSums[index(x,0)] = energy(x,0);
+    }
+
+    // go through all the other rows
+    for (int y = 1; y < this.height(); y++){
+      for (int x = 0; x < this.width(); x++) {
+        int bestPredecessor = index(x,y-1);
+        if( x > 0  &&
+            this.seamSums[index(x-1,y-1)] < this.seamSums[bestPredecessor]){
+          bestPredecessor = index(x-1,y-1);
+        }
+        if( x < this.width()-1 &&
+            this.seamSums[index(x+1,y-1)] < this.seamSums[bestPredecessor]){
+          bestPredecessor = index(x+1,y-1);
+        }
+        this.pathTo[index(x,y)]=bestPredecessor;
+        this.seamSums[index(x,y)]=this.seamSums[bestPredecessor]+energy(x,y);
+      }
+    }
+
+    // find the lowest sum in the last row
+    int lowestSum=0;
+    for( int x=1;x<this.width();x++){
+      if( this.seamSums[index(lowestSum,this.height()-1)] >
+          this.seamSums[index(x,this.height()-1)]){
+        lowestSum = x;
+      }
+    }
+
+    // list the seam by traversing it backwards
+    int[] seamIndices = new int[this.height()];
+    int predecessorIndex = this.pathTo[index(lowestSum,this.height()-1)];
+    seamIndices[this.height()-1] = lowestSum;
+
+    for( int y=this.height()-2; y>=0; y--){
+      seamIndices[y] = predecessorIndex % this.width();
+      predecessorIndex = this.pathTo[predecessorIndex];
+    }
+
+    return seamIndices;
   }                 // sequence of indices for vertical seam
-  public    void removeHorizontalSeam(int[] seam) {
+
+  public void removeHorizontalSeam(int[] seam) {
     if (seam == null) {
       throw new IllegalArgumentException();
     }
   }
-    // remove horizontal seam from current picture
-  public    void removeVerticalSeam(int[] seam){
-      if(seam==null){
-        throw new IllegalArgumentException();
-      }
+
+  // remove horizontal seam from current picture
+  public void removeVerticalSeam(int[] seam) {
+    if (seam == null) {
+      throw new IllegalArgumentException();
+    }
   }     // remove vertical seam from current picture
 }
