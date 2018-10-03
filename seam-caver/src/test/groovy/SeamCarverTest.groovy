@@ -75,5 +75,47 @@ class SeamCarverTest extends Specification {
         then:
         sc.findHorizontalSeam() == [2,2,1,2,1,0] as int[]
     }
+    def "validate horizontal seam"(){
+        when:
+        def sc = new SeamCarver(new Picture("6x5.png"))
+        then:
+        sc.validateHorizontalSeam([2,2,1,2,1,0] as int[]) == true
+        sc.validateHorizontalSeam([2,2,1,2,9,0] as int[]) == false
+        sc.validateHorizontalSeam([2,2,1,2,-1,0] as int[]) == false
+        sc.validateHorizontalSeam([2,2,1,2,4,0] as int[]) == false
+        sc.validateHorizontalSeam([2,2,1,2,1] as int[]) == false
+    }
+
+    def "validate vertical seam"(){
+        when:
+        def sc = new SeamCarver(new Picture("6x5.png"))
+        then:
+        sc.validateVerticalSeam([4,4,3,2,1] as int[]) == true
+        sc.validateVerticalSeam([4,4,3,2,-1] as int[]) == false
+        sc.validateVerticalSeam([4,4,3,2,4] as int[]) == false
+        sc.validateVerticalSeam([4,4,3,2] as int[]) == false
+    }
+
+    def "validate vertical seam 10x10"(){
+        when:
+        def sc = new SeamCarver(new Picture("10x10.png"))
+        then:
+        sc.validateVerticalSeam([ 2, 0, 0, 1, 2, 2, 1, 2, 2, 2 ] as int[]) == false
+    }
+
+    def "remove vertical seam"(){
+        when:
+        def sc = new SeamCarver(new Picture("6x5.png"))
+        then:
+        sc.removeVerticalSeam([3,4,3,2,1] as int[])
+    }
+
+    def "chameleon"(){
+        when:
+        def sc = new SeamCarver(new Picture("chameleon.png"))
+        then:
+        def seam = sc.findVerticalSeam()
+        sc.removeVerticalSeam(seam)
+    }
 
 }
