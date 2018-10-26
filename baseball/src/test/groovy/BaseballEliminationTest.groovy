@@ -31,6 +31,21 @@ class BaseballEliminationTest extends Specification {
         be.isEliminated("Baltimore") == false
         be.isEliminated("Boston") == false
         be.isEliminated("Toronto") == false
+    }
+
+    def "certificate5"(){
+        when:
+        def be = new BaseballElimination("teams5.txt")
+        then:
+        be.certificateOfElimination("Detroit").size()==4
+
+    }
+    def "certificate4"(){
+        when:
+        def be = new BaseballElimination("teams4.txt")
+        then:
+        be.certificateOfElimination("Philadelphia").size()==2
+        be.certificateOfElimination("Montreal").size()==1
 
     }
 }

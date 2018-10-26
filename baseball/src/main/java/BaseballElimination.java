@@ -1,10 +1,13 @@
 import edu.princeton.cs.algs4.*;
 
+import java.util.ArrayList;
+
 public class BaseballElimination {
   private FlowNetwork flowNetwork;
   private final int teamsCount;
   private final int gameCount;
   private Team[] teams;
+  private Team trivialEliminationTeam;
 
   public BaseballElimination(String filename) {
     final In in = new In(filename);
@@ -65,23 +68,23 @@ public class BaseballElimination {
 
   private Team[] getReducedTeams(int teamInQuestion) {
     final Team[] reducedTeams = new Team[this.teamsCount - 1];
-    for (int i = 0; i < this.teamsCount-1; i++) {
+    for (int i = 0; i < this.teamsCount - 1; i++) {
       final int index;
       if (i < teamInQuestion) {
         index = i;
       } else {
-        index = i+1;
+        index = i + 1;
       }
       final Team oldTeam = this.teams[index];
-      final Team newTeam = new Team( oldTeam.name, oldTeam.wins, oldTeam.loss, oldTeam.left, getReducedGames(oldTeam,teamInQuestion));
+      final Team newTeam = new Team(oldTeam.name, oldTeam.wins, oldTeam.loss, oldTeam.left, getReducedGames(oldTeam, teamInQuestion));
       reducedTeams[i] = newTeam;
     }
     return reducedTeams;
   }
 
-  private int[] getReducedGames(Team t, int teamInQuestion){
-    final int[] reducedGames = new int[this.teamsCount-1];
-    for (int i = 0; i < this.teamsCount-1; i++) {
+  private int[] getReducedGames(Team t, int teamInQuestion) {
+    final int[] reducedGames = new int[this.teamsCount - 1];
+    for (int i = 0; i < this.teamsCount - 1; i++) {
       if (i < teamInQuestion) {
         reducedGames[i] = t.getGames()[i];
       } else {
@@ -102,9 +105,9 @@ public class BaseballElimination {
 
     int index = 1;
     for (int j = 0; j < reducedTeamCount; j++) {
-      for (int k = j+1; k < reducedTeamCount; k++) {
+      for (int k = j + 1; k < reducedTeamCount; k++) {
         final int gamesToGoBetweenTeams = reducedTeams[j].getGames()[k];
-        this.flowNetwork.addEdge( new FlowEdge(sourceIndex, index, gamesToGoBetweenTeams));
+        this.flowNetwork.addEdge(new FlowEdge(sourceIndex, index, gamesToGoBetweenTeams));
 
         final int firstTeamIndex = j + 1 + this.gameCount;
         final int secondTeamIndex = k + 1 + this.gameCount;
@@ -113,15 +116,16 @@ public class BaseballElimination {
         index++;
       }
     }
-    final int sinkIndex = 1+this.gameCount + reducedTeamCount;
-    for( int i=0; i<reducedTeamCount; i++){
-      final int offset = 1+this.gameCount;
+    final int sinkIndex = 1 + this.gameCount + reducedTeamCount;
+    for (int i = 0; i < reducedTeamCount; i++) {
+      final int offset = 1 + this.gameCount;
       final Team teamInQuestion = this.teams[teamInQuestionIndex];
       final double capacity = teamInQuestion.getWins() + teamInQuestion.getLeft() - reducedTeams[i].getWins();
-      if( capacity < 0 ) {
+      if (capacity < 0) {
+        this.trivialEliminationTeam = reducedTeams[i];
         return false;
       }
-      this.flowNetwork.addEdge(new FlowEdge(offset+i,sinkIndex, capacity));
+      this.flowNetwork.addEdge(new FlowEdge(offset + i, sinkIndex, capacity));
     }
     return true;
   }
@@ -169,31 +173,31 @@ public class BaseballElimination {
     final int teamInQuestionIndex = findIndex(team);
 
     // check if team is trivially eliminated
-    if( !this.modelNetwork(teamInQuestionIndex) ){
+    if (!this.modelNetwork(teamInQuestionIndex)) {
       return true;
     }
 
-    FordFulkerson ff= new FordFulkerson(this.flowNetwork,0,1+this.gameCount+this.teamsCount-1);
-    for( FlowEdge e : this.flowNetwork.adj(0)){
-      if( e.flow() < e.capacity() ){
+    FordFulkerson ff = new FordFulkerson(this.flowNetwork, 0, 1 + this.gameCount + this.teamsCount - 1);
+    for (FlowEdge e : this.flowNetwork.adj(0)) {
+      if (e.flow() < e.capacity()) {
         return true;
       }
     }
     return false;
   }// is given team eliminated?
 
-  private Team find(String name){
-    for(Team t : this.teams){
-      if( t.getName().compareTo(name) == 0){
+  private Team find(String name) {
+    for (Team t : this.teams) {
+      if (t.getName().compareTo(name) == 0) {
         return t;
       }
     }
     return null;
   }
 
-  private int findIndex(String name){
-    for( int i=0; i<this.teamsCount;i++){
-      if( this.teams[i].getName().compareTo(name) == 0){
+  private int findIndex(String name) {
+    for (int i = 0; i < this.teamsCount; i++) {
+      if (this.teams[i].getName().compareTo(name) == 0) {
         return i;
       }
     }
@@ -201,8 +205,28 @@ public class BaseballElimination {
   }
 
 
-
   public Iterable<String> certificateOfElimination(String team) {
-    return null;
+    final Team teamInQuestion = find(team);
+    final int teamInQuestionIndex = findIndex(team);
+    ArrayList<String> teams = new ArrayList<>();
+
+    // check if team is trivially eliminated
+    if (!this.modelNetwork(teamInQuestionIndex)) {
+      teams.add(this.trivialEliminationTeam.getName());
+      return teams;
+    }
+
+    FordFulkerson ff = new FordFulkerson(this.flowNetwork, 0, 1 + this.gameCount + this.teamsCount - 1);
+
+    final int indexOffset = 1+this.gameCount;
+    final Team[] reducedTeams = getReducedTeams(teamInQuestionIndex);
+    for( int i = 0; i< this.teamsCount-1;i++){
+      final int teamIndex = i+indexOffset;
+      if( ff.inCut(teamIndex) ){
+        teams.add(reducedTeams[i].getName());
+      }
+    }
+
+    return teams;
   }
 }
