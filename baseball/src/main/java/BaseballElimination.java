@@ -15,11 +15,11 @@ public class BaseballElimination {
   public BaseballElimination(String filename) {
     final In in = new In(filename);
     this.teamsCount = Integer.valueOf(in.readLine());
-    this.gameCount = combinations(teamsCount - 1, 2);
+    this.gameCount = (int) combinations(teamsCount - 1, 2);
 
     this.teams = new Team[this.teamsCount];
     for (int i = 0; i < this.teamsCount; i++) {
-      final String[] rawLine = in.readLine().split("\\s+");
+      final String[] rawLine = in.readLine().trim().split("\\s+");
       final String teamName = rawLine[0];
       final int teamWins = Integer.valueOf(rawLine[1]);
       final int teamLosses = Integer.valueOf(rawLine[2]);
@@ -141,10 +141,14 @@ public class BaseballElimination {
     return result;
   }
 
-  private static int combinations(int n, int k) {
+  private static long combinations(int n, int k) {
+    /*if( n == k ){
+      return 1;
+    }
     final int register = factorial(n);
     final int denominator = factorial(k) * factorial(n - k);
-    return (register / denominator);
+    return (register / denominator);*/
+    return ( n*(n-1)/2);
   }
 
   public int numberOfTeams() {

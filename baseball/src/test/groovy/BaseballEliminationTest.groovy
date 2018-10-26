@@ -33,6 +33,20 @@ class BaseballEliminationTest extends Specification {
         be.isEliminated("Toronto") == false
     }
 
+    def "loading10"(){
+        when:
+        def be = new BaseballElimination("teams10.txt")
+        then:
+        be.isEliminated("Atlanta") == false
+    }
+
+    def "loading48"(){
+        when:
+        def be = new BaseballElimination("teams48.txt")
+        then:
+        be.isEliminated("Team0") == false
+    }
+
     def "certificate5"(){
         when:
         def be = new BaseballElimination("teams5.txt")
