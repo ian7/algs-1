@@ -1,4 +1,7 @@
-import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.FlowEdge;
+import edu.princeton.cs.algs4.FlowNetwork;
+import edu.princeton.cs.algs4.FordFulkerson;
+import edu.princeton.cs.algs4.In;
 
 import java.util.ArrayList;
 
@@ -153,23 +156,24 @@ public class BaseballElimination {
   }                                // all teams
 
   public int wins(String team) {
-    return 0;
+    return this.find(team).getWins();
   }                     // number of wins for given team
 
   public int losses(String team) {
-    return 0;
+    return this.find(team).getLoss();
   }                   // number of losses for given team
 
   public int remaining(String team) {
-    return 0;
+    return this.find(team).getLeft();
   }                // number of remaining games for given team
 
   public int against(String team1, String team2) {
-    return 0;
+    Team t = this.find( team1 );
+    int otherTeamIndex = this.findIndex( team2 );
+    return t.getGames()[otherTeamIndex];
   }    // number of remaining games between team1 and team2
 
   public boolean isEliminated(String team) {
-    final Team teamInQuestion = find(team);
     final int teamInQuestionIndex = findIndex(team);
 
     // check if team is trivially eliminated
