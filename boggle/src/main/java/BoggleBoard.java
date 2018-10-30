@@ -24,11 +24,14 @@ public class BoggleBoard {
     final In in = new In(filename);
     this.m = in.readInt();
     this.n = in.readInt();
+    in.readLine();
     this.board = new char[n][m];
 
     for( int i=0;i<n;i++){
+      final String rawLine = in.readLine();
+      final String[] brokenLine = rawLine.trim().split("\\s+");
       for( int j=0; j<m;j++){
-        this.board[i][j] = in.readChar();
+        this.board[i][j] = brokenLine[j].charAt(0);
       }
     }
 

@@ -21,4 +21,7 @@ public class BoggleLoader {
   public BoggleBoard loadBoard(String filename){
     return new BoggleBoard(filename);
   }
+  public String[] getDictionary(){
+    return this.dictionary;
+  }
 }

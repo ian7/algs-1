@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="922db125-56bc-4713-a294-87bb037e7202" name="Default Changelist" comment="certificates seem to work too">
+      <change afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleSolverTest.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleSolver.java" afterDir="false" />
     </list>
     <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -78,8 +80,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/BaseballElimination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" selection-start-line="15" selection-end-line="16" />
+            <state relative-caret-position="357">
+              <caret line="21" column="64" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -678,7 +680,7 @@
       <updated>1540224147018</updated>
       <workItem from="1540224150818" duration="31477000" />
       <workItem from="1540831378834" duration="188000" />
-      <workItem from="1540892716745" duration="1522000" />
+      <workItem from="1540892716745" duration="2124000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit for baseball eliminations">
       <created>1540225441263</created>
@@ -758,7 +760,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33187000" />
+    <option name="totallyTimeSpent" value="33789000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1798" y="15" width="1623" height="984" extended-state="0" />
@@ -986,8 +988,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/BaseballElimination.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" selection-start-line="15" selection-end-line="16" />
+        <state relative-caret-position="357">
+          <caret line="21" column="64" selection-start-line="21" selection-start-column="58" selection-end-line="21" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
