@@ -18,4 +18,7 @@ public class BoggleLoader {
   public int length(){
     return this.dictionary.length;
   }
+  public BoggleBoard loadBoard(String filename){
+    return new BoggleBoard(filename);
+  }
 }

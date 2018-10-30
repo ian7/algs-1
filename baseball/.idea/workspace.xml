@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="922db125-56bc-4713-a294-87bb037e7202" name="Default Changelist" comment="certificates seem to work too">
-      <change afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" afterDir="false" />
     </list>
     <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -519,11 +518,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-2094" />
-    <option name="y" value="166" />
-    <option name="width" value="1797" />
-    <option name="height" value="1099" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1786" />
+    <option name="y" value="15" />
+    <option name="width" value="1793" />
+    <option name="height" value="1087" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -762,10 +761,10 @@
     <option name="totallyTimeSpent" value="33187000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1927" y="8" width="1753" height="993" extended-state="6" />
+    <frame x="-1798" y="15" width="1623" height="984" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18348083" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19872205" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />

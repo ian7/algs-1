@@ -1,3 +1,5 @@
+import edu.princeton.cs.algs4.In;
+
 public class BoggleBoard {
   private final int m;
   private final int n;
@@ -19,8 +21,17 @@ public class BoggleBoard {
 
   // Initializes a Boggle board from the specified filename.
   public BoggleBoard(String filename) {
-    this.n = 4;
-    this.m = 4;
+    final In in = new In(filename);
+    this.m = in.readInt();
+    this.n = in.readInt();
+    this.board = new char[n][m];
+
+    for( int i=0;i<n;i++){
+      for( int j=0; j<m;j++){
+        this.board[i][j] = in.readChar();
+      }
+    }
+
   }
 
   // Initializes a Boggle board from the 2d char array.

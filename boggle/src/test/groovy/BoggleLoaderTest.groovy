@@ -13,4 +13,21 @@ class BoggleLoaderTest extends Specification {
         then:
         bl.length() == 264061
     }
+    def "load board1000"(){
+        when:
+        def bl = new BoggleLoader("dictionary-algs4.txt")
+        def b = bl.loadBoard("board-points1000.txt")
+        then:
+        b.cols() == 4
+        b.rows() == 4
+    }
+    def "load anti"(){
+        when:
+        def bl = new BoggleLoader("dictionary-algs4.txt")
+        def b = bl.loadBoard("board-antidisestablishmentarianisms.txt")
+        then:
+        b.cols() == 29
+        b.rows() == 1
+    }
+
 }
