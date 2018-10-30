@@ -27,10 +27,10 @@ public class BoggleBoard {
     in.readLine();
     this.board = new char[n][m];
 
-    for( int i=0;i<n;i++){
+    for (int i = 0; i < n; i++) {
       final String rawLine = in.readLine();
       final String[] brokenLine = rawLine.trim().split("\\s+");
-      for( int j=0; j<m;j++){
+      for (int j = 0; j < m; j++) {
         this.board[i][j] = brokenLine[j].charAt(0);
       }
     }
@@ -63,9 +63,9 @@ public class BoggleBoard {
   // Returns a string representation of the board.
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for( int i=0; i<this.n;i++){
-      for( int j=0; j<this.m;j++){
-        sb.append(this.getLetter(i,j)).append(" ");
+    for (int i = 0; i < this.n; i++) {
+      for (int j = 0; j < this.m; j++) {
+        sb.append(this.getLetter(i, j)).append(" ");
       }
     }
     return sb.toString();
