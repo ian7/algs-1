@@ -2,44 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="922db125-56bc-4713-a294-87bb037e7202" name="Default Changelist" comment="certificates seem to work too">
-      <change afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleSolver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../collinear/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/libraries/algs4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../kd-trees/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../negativeCycle/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../negativeCycle/src/main/groovy/Digraph.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../negativeCycle/src/main/java/NegativeCycle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../negativeCycle/src/main/java/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../negativeCycle/src/test/groovy/DigraphTest.groovy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../puzzle/.idea/libraries/algs4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../puzzle/.idea/libraries/algs4__2_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../puzzle/.idea/libraries/algs4__3_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../queues/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../seam-caver/.idea/libraries/algs4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../seam-caver/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../wordnet/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../kd-trees/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../kd-trees/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../seam-caver/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../seam-caver/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleLoaderTest.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" afterDir="false" />
     </list>
-    <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -68,7 +36,8 @@
           <entry key="project.closed" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -107,11 +76,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/BaseballElimination.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="227" selection-start-line="227" selection-end-line="227" />
+            <state relative-caret-position="272">
+              <caret line="16" selection-start-line="15" selection-end-line="16" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,11 +88,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="476">
-              <caret line="28" column="1" lean-forward="true" selection-end-line="31" />
+              <caret line="28" column="1" selection-end-line="31" />
             </state>
           </provider>
         </entry>
@@ -215,6 +184,7 @@
       <find>Team</find>
       <find>reduced</find>
       <find>return null</find>
+      <find>In(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -550,10 +520,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1796" />
-    <option name="height" value="1098" />
+    <option name="x" value="-2094" />
+    <option name="y" value="166" />
+    <option name="width" value="1797" />
+    <option name="height" value="1099" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -561,7 +531,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -598,6 +567,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -709,6 +679,7 @@
       <updated>1540224147018</updated>
       <workItem from="1540224150818" duration="31477000" />
       <workItem from="1540831378834" duration="188000" />
+      <workItem from="1540892716745" duration="1522000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit for baseball eliminations">
       <created>1540225441263</created>
@@ -788,13 +759,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31665000" />
+    <option name="totallyTimeSpent" value="33187000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1625" height="993" extended-state="6" />
+    <frame x="-1927" y="8" width="1753" height="993" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19591576" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18348083" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -944,16 +915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/BaseballElimination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="227" selection-start-line="227" selection-end-line="227" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/libs/algs4.jar!/edu/princeton/cs/algs4/FlowNetwork.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1360">
@@ -1020,7 +981,17 @@
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
-          <caret line="28" column="1" lean-forward="true" selection-end-line="31" />
+          <caret line="28" column="1" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/BaseballElimination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="15" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
