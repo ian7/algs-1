@@ -100,7 +100,13 @@ public class BoggleSolver {
         if (!predecessors.isEmpty()) {
           sb.append(predecessors.get(predecessors.size() - 1).string);
         }
-        sb.append(String.valueOf(board.getLetter(i,j)));
+        final char letter = board.getLetter(i,j);
+        if( letter == 'Q'){
+          sb.append("QU");
+        }
+        else{
+          sb.append(String.valueOf(letter));
+        }
         this.string = sb.toString();
         this.predecessors = new ArrayList<>();
         this.predecessors.addAll(predecessors);

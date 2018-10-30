@@ -41,5 +41,13 @@ class BoggleSolverTest extends Specification {
         then:
         bl.getTotalScore(bs.getAllValidWords(b)) == 1000
     }
+    def "board-q"(){
+        when:
+        def bl = new BoggleLoader("dictionary-yawl.txt")
+        def b = bl.loadBoard("board-q.txt")
+        def bs = new BoggleSolver(bl.getDictionary())
+        then:
+        bs.getAllValidWords(b).contains("EQUATION")
+    }
 
 }
