@@ -25,12 +25,12 @@ public class BoggleBoard {
     this.m = in.readInt();
     this.n = in.readInt();
     in.readLine();
-    this.board = new char[n][m];
+    this.board = new char[m][n];
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < m; i++) {
       final String rawLine = in.readLine();
       final String[] brokenLine = rawLine.trim().split("\\s+");
-      for (int j = 0; j < m; j++) {
+      for (int j = 0; j < n; j++) {
         this.board[i][j] = brokenLine[j].charAt(0);
       }
     }

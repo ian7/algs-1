@@ -51,7 +51,7 @@ public class BoggleSolver {
       for (int i = 0; i < board.rows(); i++) {
         for (int j = 0; j < board.cols(); j++) {
           //this.dices[i][j] = new BoggleDice(board.getLetter(i,j));
-          this.queue.add(new Dice(board, i, j, new ArrayList<Dice>()));
+          this.queue.add(new Dice(board, i, j, null));
         }
       }
     }
@@ -78,7 +78,7 @@ public class BoggleSolver {
     private class Dice {
       final int i;
       final int j;
-      final List<Dice> predecessors;
+      final Dice predecessor;
       final BoggleBoard board;
       final String string;
       List<Dice> neighbors = null;
@@ -92,13 +92,13 @@ public class BoggleSolver {
       }
 
 
-      Dice(BoggleBoard board, int i, int j, List<Dice> predecessors) {
+      Dice(BoggleBoard board, int i, int j, Dice predecessor) {
         this.board = board;
         this.i = i;
         this.j = j;
         StringBuilder sb = new StringBuilder();
-        if (!predecessors.isEmpty()) {
-          sb.append(predecessors.get(predecessors.size() - 1).string);
+        if (predecessor!=null) {
+          sb.append(predecessor.string);
         }
         final char letter = board.getLetter(i, j);
         if (letter == 'Q') {
@@ -107,9 +107,7 @@ public class BoggleSolver {
           sb.append(String.valueOf(letter));
         }
         this.string = sb.toString();
-        this.predecessors = new ArrayList<>();
-        this.predecessors.addAll(predecessors);
-        this.predecessors.add(this);
+        this.predecessor = predecessor;
       }
 
       private void populateNeighbors() {
@@ -155,12 +153,15 @@ public class BoggleSolver {
 
       private boolean addNeighbor(int i, int j) {
         //check predecessors
-        for (Dice p : this.predecessors) {
+
+        Dice p = this.predecessor;
+        while( p != null){
           if (p.i == i && p.j == j) {
             return false;
           }
+          p = p.predecessor;
         }
-        neighbors.add(new Dice(this.board, i, j, this.predecessors));
+        neighbors.add(new Dice(this.board, i, j, this));
         return true;
       }
 
