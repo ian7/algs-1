@@ -24,4 +24,12 @@ public class BoggleLoader {
   public String[] getDictionary(){
     return this.dictionary;
   }
+
+  public int getTotalScore(List<String> words){
+    int score = 0;
+    for( String w : words ){
+      score += bs.scoreOf(w);
+    }
+    return score;
+  }
 }

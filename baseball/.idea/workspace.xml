@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="922db125-56bc-4713-a294-87bb037e7202" name="Default Changelist" comment="certificates seem to work too">
-      <change afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleSolverTest.groovy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../boggle/src/main/java/BoggleSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/main/java/BoggleSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleSolverTest.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/../boggle/src/test/groovy/BoggleSolverTest.groovy" afterDir="false" />
     </list>
     <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />

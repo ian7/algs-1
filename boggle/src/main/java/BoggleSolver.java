@@ -25,7 +25,23 @@ public class BoggleSolver {
   // Returns the score of the given word if it is in the dictionary, zero otherwise.
   // (You can assume the word contains only the uppercase letters A through Z.)
   public int scoreOf(String word) {
-    return -1;
+    final int length = word.length();
+    if( length < 3 ){
+      return 0;
+    }
+    if( length < 5 ){
+      return 1;
+    }
+    if( length == 5){
+      return 2;
+    }
+    if( length == 6){
+      return 3;
+    }
+    if( length == 7){
+      return 5;
+    }
+    return 11;
   }
 
   private class DiceBoard {
