@@ -1,25 +1,65 @@
-import edu.princeton.cs.algs4.TST;
+
+import edu.princeton.cs.algs4.SET;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 
 public class BoggleSolver {
-  private final TST<Integer> tst = new TST<>();
+  private final MyTrieSET tst = new MyTrieSET();
 
   // Initializes the data structure using the given array of strings as the dictionary.
   // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
   public BoggleSolver(String[] dictionary) {
     for (String s : dictionary) {
-      tst.put(s, 7);
+      tst.add(s);
     }
   }
 
   // Returns the set of all valid words in the given Boggle board, as an Iterable.
   public Iterable<String> getAllValidWords(BoggleBoard board) {
-    DiceBoard db = new DiceBoard(board);
-    return db.findWords();
+    ArrayList<String> words = new ArrayList<>();
+    boolean[][] predecessors = new boolean[board.rows()][board.cols()];
+
+    for (int i = 0; i < board.rows(); i++) {
+      for (int j = 0; j < board.cols(); j++) {
+        collect(board, i, j, predecessors, "", words);
+      }
+    }
+    return words;
+  }
+
+  private void collect(BoggleBoard board, int row, int col, boolean[][] predecessors, String prefix, ArrayList<String> set) {
+    if (predecessors[row][col]) {
+      return;
+    }
+
+    char letter = board.getLetter(row, col);
+    String word = prefix;
+    if (letter == 'Q') {
+      word += "QU";
+    } else {
+      word += letter;
+    }
+    if (!tst.containsPrefix(word)) {
+      return;
+    }
+    if (word.length() > 2 && tst.contains(word) && !set.contains(word)) {
+      set.add(word);
+    }
+
+    predecessors[row][col] = true;
+
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+        // eliminate self
+        if (i == 0 && j == 0) {
+          continue;
+        }
+        if ((row + i >= 0) && (row + i < board.rows()) && col + j >= 0 && col + j < board.cols()) {
+          collect(board, row + i, col + j, predecessors, word, set);
+        }
+      }
+    }
+    predecessors[row][col] = false;
   }
 
   // Returns the score of the given word if it is in the dictionary, zero otherwise.
@@ -44,144 +84,5 @@ public class BoggleSolver {
     return 11;
   }
 
-  private class DiceBoard {
-    private final Queue<Dice> queue = new LinkedList<>();
-
-    DiceBoard(BoggleBoard board) {
-      for (int i = 0; i < board.rows(); i++) {
-        for (int j = 0; j < board.cols(); j++) {
-          //this.dices[i][j] = new BoggleDice(board.getLetter(i,j));
-          this.queue.add(new Dice(board, i, j, null));
-        }
-      }
-    }
-
-    public List<String> findWords() {
-      List<String> words = new ArrayList<>();
-      while (!queue.isEmpty()) {
-        Dice d = queue.poll();
-        for (Dice n : d.getNeighbors()) {
-          if (tst.keysWithPrefix(n.string).iterator().hasNext()) {
-            queue.add(n);
-          }
-        }
-        //queue.addAll(d.getNeighbors());
-        if (d.string.length() > 2 && tst.contains(d.string)) {
-          if (!words.contains(d.string)) {
-            words.add(d.string);
-          }
-        }
-      }
-      return words;
-    }
-
-    private class Dice {
-      final int i;
-      final int j;
-      final Dice predecessor;
-      final BoggleBoard board;
-      final String string;
-      List<Dice> neighbors = null;
-
-      public List<Dice> getNeighbors() {
-        if (neighbors == null) {
-          neighbors = new ArrayList<>();
-          populateNeighbors();
-        }
-        return neighbors;
-      }
-
-
-      Dice(BoggleBoard board, int i, int j, Dice predecessor) {
-        this.board = board;
-        this.i = i;
-        this.j = j;
-        StringBuilder sb = new StringBuilder();
-        if (predecessor!=null) {
-          sb.append(predecessor.string);
-        }
-        final char letter = board.getLetter(i, j);
-        if (letter == 'Q') {
-          sb.append("QU");
-        } else {
-          sb.append(String.valueOf(letter));
-        }
-        this.string = sb.toString();
-        this.predecessor = predecessor;
-      }
-
-      private void populateNeighbors() {
-        if (!isFirstColumn()) {
-          // left
-          addNeighbor(this.i, this.j - 1);
-          if (!isFistRow()) {
-            addNeighbor(this.i - 1, this.j - 1);
-          }
-          if (!isLastRow()) {
-            addNeighbor(this.i + 1, this.j - 1);
-          }
-        }
-        if (!isLastColumn()) {
-          // right
-          addNeighbor(this.i, this.j + 1);
-          if (!isFistRow()) {
-            addNeighbor(this.i - 1, this.j + 1);
-          }
-          if (!isLastRow()) {
-            addNeighbor(this.i + 1, this.j + 1);
-          }
-        }
-        if (!isFistRow()) {
-          addNeighbor(this.i - 1, this.j);
-          if (!isFirstColumn()) {
-            addNeighbor(this.i - 1, this.j - 1);
-          }
-          if (!isLastColumn()) {
-            addNeighbor(this.i - 1, this.j + 1);
-          }
-        }
-        if (!isLastRow()) {
-          addNeighbor(this.i + 1, this.j);
-          if (!isFirstColumn()) {
-            addNeighbor(this.i + 1, this.j - 1);
-          }
-          if (!isLastColumn()) {
-            addNeighbor(this.i + 1, this.j + 1);
-          }
-        }
-      }
-
-      private boolean addNeighbor(int i, int j) {
-        //check predecessors
-
-        Dice p = this.predecessor;
-        while( p != null){
-          if (p.i == i && p.j == j) {
-            return false;
-          }
-          p = p.predecessor;
-        }
-        neighbors.add(new Dice(this.board, i, j, this));
-        return true;
-      }
-
-
-      boolean isFirstColumn() {
-        return j == 0;
-      }
-
-      boolean isLastColumn() {
-        return j == board.cols() - 1;
-      }
-
-      boolean isFistRow() {
-        return i == 0;
-      }
-
-      boolean isLastRow() {
-        return i == board.rows() - 1;
-      }
-    }
-  }
 }
 

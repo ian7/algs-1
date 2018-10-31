@@ -1,23 +1,25 @@
 import spock.lang.Specification
 
 class BoggleSolverTest extends Specification {
-    def "smallDict"(){
+    def "smallDict"() {
         when:
         def bl = new BoggleLoader("dictionary-algs4.txt")
         def b = bl.loadBoard("board-points1000.txt")
         def bs = new BoggleSolver(bl.getDictionary())
         then:
-        bs.getAllValidWords(b).size()==52
+        bs.getAllValidWords(b).size() == 52
     }
-    def "largeDict"(){
+
+    def "largeDict"() {
         when:
         def bl = new BoggleLoader("dictionary-yawl.txt")
         def b = bl.loadBoard("board-points1000.txt")
         def bs = new BoggleSolver(bl.getDictionary())
         then:
-        bs.getAllValidWords(b).size()==460
+        bs.getAllValidWords(b).size() == 460
     }
-    def "scoreOf"(){
+
+    def "scoreOf"() {
         when:
         def bl = new BoggleLoader("dictionary-algs4.txt")
         def bs = new BoggleSolver(bl.getDictionary())
@@ -33,7 +35,8 @@ class BoggleSolverTest extends Specification {
         bs.scoreOf("abcdefgh") == 11
         bs.scoreOf("abcdefghi") == 11
     }
-    def "totalScoreOf"(){
+
+    def "totalScoreOf"() {
         when:
         def bl = new BoggleLoader("dictionary-yawl.txt")
         def b = bl.loadBoard("board-points1000.txt")
@@ -41,13 +44,23 @@ class BoggleSolverTest extends Specification {
         then:
         bl.getTotalScore(bs.getAllValidWords(b)) == 1000
     }
-    def "board-q"(){
+
+    def "board-q"() {
         when:
         def bl = new BoggleLoader("dictionary-yawl.txt")
         def b = bl.loadBoard("board-q.txt")
         def bs = new BoggleSolver(bl.getDictionary())
         then:
         bs.getAllValidWords(b).contains("EQUATION")
+    }
+
+    def "board-estrangers"() {
+        when:
+        def bl = new BoggleLoader("dictionary-yawl.txt")
+        def b = bl.loadBoard("board-estrangers.txt")
+        def bs = new BoggleSolver(bl.getDictionary())
+        then:
+        bs.getAllValidWords(b).size == 50
     }
 
 }
