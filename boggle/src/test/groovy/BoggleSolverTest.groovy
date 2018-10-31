@@ -49,5 +49,13 @@ class BoggleSolverTest extends Specification {
         then:
         bs.getAllValidWords(b).contains("EQUATION")
     }
+    def "board-estrangers"(){
+        when:
+        def bl = new BoggleLoader("dictionary-yawl.txt")
+        def b = bl.loadBoard("board-estrangers.txt")
+        def bs = new BoggleSolver(bl.getDictionary())
+        then:
+        bs.getAllValidWords(b).size == 50
+    }
 
 }

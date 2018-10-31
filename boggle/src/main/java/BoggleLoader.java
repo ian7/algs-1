@@ -32,4 +32,12 @@ public class BoggleLoader {
     }
     return score;
   }
+  public static void main(String[] args){
+    BoggleLoader bl = new BoggleLoader("dictionary-yawl.txt");
+    BoggleBoard b = bl.loadBoard("board-estrangers.txt");
+    BoggleSolver bs = new BoggleSolver(bl.getDictionary());
+    for( int i=0;i<1;i++) {
+      bs.getAllValidWords(b);
+    }
+  }
 }

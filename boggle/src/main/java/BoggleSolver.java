@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.TST;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,13 +5,13 @@ import java.util.List;
 import java.util.Queue;
 
 public class BoggleSolver {
-  private final TST<Integer> tst = new TST<>();
+  private final MyTrieSET tst = new MyTrieSET();
 
   // Initializes the data structure using the given array of strings as the dictionary.
   // (You can assume each word in the dictionary contains only the uppercase letters A through Z.)
   public BoggleSolver(String[] dictionary) {
     for (String s : dictionary) {
-      tst.put(s, 7);
+      tst.add(s);
     }
   }
 
@@ -61,7 +60,7 @@ public class BoggleSolver {
       while (!queue.isEmpty()) {
         Dice d = queue.poll();
         for (Dice n : d.getNeighbors()) {
-          if (tst.keysWithPrefix(n.string).iterator().hasNext()) {
+          if (hasPrefixInDictionary(n.string)) {
             queue.add(n);
           }
         }
@@ -75,6 +74,11 @@ public class BoggleSolver {
       return words;
     }
 
+    private boolean hasPrefixInDictionary(String s) {
+      //return tst.keysWithPrefix(s).iterator().hasNext();
+      return tst.containsPrefix(s);
+    }
+
     private class Dice {
       final int i;
       final int j;
@@ -82,6 +86,11 @@ public class BoggleSolver {
       final BoggleBoard board;
       final String string;
       List<Dice> neighbors = null;
+      final boolean isFirstRow;
+      final boolean isFirstColumn;
+      final boolean isLastRow;
+      final boolean isLastColumn;
+      final int hash;
 
       public List<Dice> getNeighbors() {
         if (neighbors == null) {
@@ -97,8 +106,12 @@ public class BoggleSolver {
         this.i = i;
         this.j = j;
         StringBuilder sb = new StringBuilder();
-        if (predecessor!=null) {
+        if (predecessor != null) {
           sb.append(predecessor.string);
+          hash = (predecessor.hash*10 + board.getLetter(i,j))%999999997;
+        }
+        else{
+          hash = board.getLetter(i,j);
         }
         final char letter = board.getLetter(i, j);
         if (letter == 'Q') {
@@ -108,44 +121,48 @@ public class BoggleSolver {
         }
         this.string = sb.toString();
         this.predecessor = predecessor;
+        this.isFirstColumn = j==0;
+        this.isFirstRow = i==0;
+        this.isLastColumn = isLastColumn();
+        this.isLastRow = isLastRow();
       }
 
       private void populateNeighbors() {
-        if (!isFirstColumn()) {
+        if (!isFirstColumn) {
           // left
           addNeighbor(this.i, this.j - 1);
-          if (!isFistRow()) {
+          if (!isFirstRow) {
             addNeighbor(this.i - 1, this.j - 1);
           }
-          if (!isLastRow()) {
+          if (!isLastRow) {
             addNeighbor(this.i + 1, this.j - 1);
           }
         }
-        if (!isLastColumn()) {
+        if (!isLastColumn) {
           // right
           addNeighbor(this.i, this.j + 1);
-          if (!isFistRow()) {
+          if (!isFirstRow) {
             addNeighbor(this.i - 1, this.j + 1);
           }
-          if (!isLastRow()) {
+          if (!isLastRow) {
             addNeighbor(this.i + 1, this.j + 1);
           }
         }
-        if (!isFistRow()) {
+        if (!isFirstRow) {
           addNeighbor(this.i - 1, this.j);
-          if (!isFirstColumn()) {
+          if (!isFirstColumn) {
             addNeighbor(this.i - 1, this.j - 1);
           }
-          if (!isLastColumn()) {
+          if (!isLastColumn) {
             addNeighbor(this.i - 1, this.j + 1);
           }
         }
-        if (!isLastRow()) {
+        if (!isLastRow) {
           addNeighbor(this.i + 1, this.j);
-          if (!isFirstColumn()) {
+          if (!isFirstColumn) {
             addNeighbor(this.i + 1, this.j - 1);
           }
-          if (!isLastColumn()) {
+          if (!isLastColumn) {
             addNeighbor(this.i + 1, this.j + 1);
           }
         }
@@ -155,7 +172,7 @@ public class BoggleSolver {
         //check predecessors
 
         Dice p = this.predecessor;
-        while( p != null){
+        while (p != null) {
           if (p.i == i && p.j == j) {
             return false;
           }
@@ -174,7 +191,7 @@ public class BoggleSolver {
         return j == board.cols() - 1;
       }
 
-      boolean isFistRow() {
+      boolean isFirstRow() {
         return i == 0;
       }
 
