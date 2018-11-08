@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.BinaryStdOut;
 import java.util.LinkedList;
 
 public class MoveToFront {
-    private LinkedList<Character> order;
+    private final LinkedList<Character> order;
 
     public MoveToFront() {
         this.order = new LinkedList<>();
@@ -44,7 +44,7 @@ public class MoveToFront {
 
         while (!BinaryStdIn.isEmpty()) {
             char i = BinaryStdIn.readChar();
-            char c = Character.valueOf(mtf.deMove( i));
+            char c = mtf.deMove(i);
             BinaryStdOut.write(c);
         }
         BinaryStdOut.flush();

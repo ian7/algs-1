@@ -81,52 +81,70 @@ public class BurrowsWheeler {
     }
 
     private static class LocalCircularSuffixArray {
-        private final String s;
         private final char c[];
-        private char spareC[];
-        private char t[];
-        TrieST<Integer> tst;
-        private final int indices[];
+        private final Suffix[] suffixes;
+
 
         public LocalCircularSuffixArray(String s) {
-            this.tst = new TrieST<>();
-            this.s = s;
-            this.c = new char[s.length()];
-            this.t = new char[s.length()];
-            this.spareC = new char[s.length()];
-            this.indices = new int[s.length()];
-            for (int i = 0; i < s.length(); i++) {
-                c[i] = s.charAt(i);
+            this.c = s.toCharArray();
+            this.suffixes = new Suffix[s.length()];
+            for (int i = 0; i < c.length; i++) {
+                this.suffixes[i] = new Suffix(c, i);
             }
-            for (int i = 0; i < s.length(); i++) {
-                tst.put(get(i), i);
-            }
-            int i = 0;
-            for (String prefix : tst.keys()) {
-                this.indices[i] = tst.get(prefix);
-                this.t[i] = prefix.charAt(s.length() - 1);
-                i++;
-            }
+            Arrays.sort(this.suffixes);
         }   // circular suffix array of s
 
-        private String get(int offset) {
-            for (int i = 0; i < s.length(); i++) {
-                int effectiveOffset = (i + offset) % s.length();
-                this.spareC[i] = s.charAt(effectiveOffset);
+        private class Suffix implements Comparable<Suffix> {
+            private final char[] s;
+            private final int offset;
+
+            Suffix(char[] s, int offset) {
+                this.s = s;
+                this.offset = offset;
             }
-            return String.valueOf(spareC);
+
+            public char getAt(int index) {
+                return s[(index + offset) % s.length];
+            }
+
+            public char getT() {
+                return getAt(s.length - 1);
+            }
+
+            public int getOffset() {
+                return this.offset;
+            }
+
+            @Override
+            public int compareTo(Suffix that) {
+                for (int i = 0; i < this.s.length; i++) {
+                    final char thisAt = this.getAt(i);
+                    final char thatAt = that.getAt(i);
+                    if (thisAt > thatAt) {
+                        return 1;
+                    }
+                    if (thisAt < thatAt) {
+                        return -1;
+                    }
+                }
+                return 0;
+            }
         }
 
         public int length() {
-            return s.length();
+            return this.c.length;
         }                     // length of s
 
         public int index(int i) {
-            return this.indices[i];
+            return this.suffixes[i].getOffset();
         }                 // returns index of ith sorted suffix
 
         private String getT() {
-            return String.valueOf(this.t);
+            final char[] c = new char[length()];
+            for (int i = 0; i < length(); i++) {
+                c[i] = this.suffixes[i].getT();
+            }
+            return String.valueOf(c);
         }
     }
 }
