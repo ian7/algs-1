@@ -7,8 +7,6 @@
       <change afterPath="$PROJECT_DIR$/../collinear/.idea/libraries/algs4.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../burrowsWheeler/src/main/java/BurrowsWheeler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../burrowsWheeler/src/main/java/BurrowsWheeler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../burrowsWheeler/src/main/java/CircularSuffixArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/../burrowsWheeler/src/main/java/CircularSuffixArray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../burrowsWheeler/src/test/groovy/BurrowsWheelerTest.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/../burrowsWheeler/src/test/groovy/BurrowsWheelerTest.groovy" afterDir="false" />
     </list>
     <list id="fafad678-480b-4b49-9004-5e272a1e5616" name="intellij" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -533,10 +531,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="y" value="1" />
-    <option name="width" value="1746" />
-    <option name="height" value="1086" />
+    <option name="x" value="-8" />
+    <option name="y" value="2" />
+    <option name="width" value="1748" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -585,7 +583,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541683241119" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541685313926" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="Spock" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.Spock" value="Specification" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/groovy" />
@@ -778,10 +776,10 @@
     <option name="totallyTimeSpent" value="36484000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1786" height="1096" extended-state="6" />
+    <frame x="-7" y="-7" width="1400" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11181924" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14402986" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />

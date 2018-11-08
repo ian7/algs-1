@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
+import edu.princeton.cs.algs4.Queue;
 
-import java.util.Arrays;
 
 public class BurrowsWheeler {
     // apply Burrows-Wheeler transform, reading from standard input and writing to standard output
@@ -71,27 +71,24 @@ public class BurrowsWheeler {
 
 
     private static int[] findNext(char[] t) {
+        final int radix = 256;
         int[] next = new int[t.length];
-        boolean[] exclusions = new boolean[t.length];
         char[] firstColumn = bucketSort(t);
+
+        Queue<Integer>[] tIndices = (Queue<Integer>[]) new Queue[radix];
+
+        for( int i=0;i<radix;i++){
+            tIndices[i] = new Queue<>();
+        }
+        for( int i=0; i<t.length;i++){
+            tIndices[t[i]].enqueue(i);
+        }
         for (int i = 0; i < t.length; i++) {
             char c = firstColumn[i];
-            int indexInT = indexIn(c, t, exclusions);
-            next[i] = indexInT;
-            exclusions[indexInT] = true;
+            next[i] = tIndices[c].dequeue();
         }
         return next;
     }
-
-    private static int indexIn(char c, char[] a, boolean[] exclusions) {
-        for (int i = 0; i < a.length; i++) {
-            if (!exclusions[i] && a[i] == c) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
 
     // if args[0] is '-', apply Burrows-Wheeler transform
     // if args[0] is '+', apply Burrows-Wheeler inverse transform
