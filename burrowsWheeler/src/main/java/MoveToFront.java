@@ -2,12 +2,11 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class MoveToFront {
-    LinkedList<Character> order;
+    private LinkedList<Character> order;
 
-    MoveToFront() {
+    public MoveToFront() {
         this.order = new LinkedList<>();
         for (char i = 0; i < 256; i++) {
             this.order.addLast(Character.valueOf(i));
@@ -17,14 +16,11 @@ public class MoveToFront {
     // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
         MoveToFront mtf = new MoveToFront();
-        StringBuilder sb = new StringBuilder();
         while (!BinaryStdIn.isEmpty()) {
             char c = BinaryStdIn.readChar();
-            int i = mtf.move(c);
-            BinaryStdOut.write(Integer.toHexString(i));
-            BinaryStdOut.write(" ");
+            char i = (char) mtf.move(c);
+            BinaryStdOut.write(i);
         }
-        BinaryStdOut.write("\n");
         BinaryStdOut.flush();
     }
 
@@ -45,16 +41,11 @@ public class MoveToFront {
     // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
         MoveToFront mtf = new MoveToFront();
-        StringBuilder sb = new StringBuilder();
 
         while (!BinaryStdIn.isEmpty()) {
-            String line = BinaryStdIn.readString();
-            String values[] = line.split("\\s+");
-            for (String s : values) {
-                int i = Integer.valueOf(s, 16);
-                char c = Character.valueOf(mtf.deMove(i));
-                BinaryStdOut.write(c);
-            }
+            char i = BinaryStdIn.readChar();
+            char c = Character.valueOf(mtf.deMove( i));
+            BinaryStdOut.write(c);
         }
         BinaryStdOut.flush();
     }

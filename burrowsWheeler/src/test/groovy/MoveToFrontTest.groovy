@@ -5,10 +5,10 @@ class MoveToFrontTest extends Specification {
         when:
         def mtf = new MoveToFront()
         then:
-        mtf.move('a' as char)==158
+        mtf.move('a' as char)==97
         mtf.move('a' as char)==0
         mtf.move('a' as char)==0
-        mtf.move('b' as char)==158
+        mtf.move('b' as char)==98
         mtf.move('b' as char)==0
         mtf.move('a' as char)==1
     }
@@ -16,10 +16,10 @@ class MoveToFrontTest extends Specification {
         when:
         def mtf = new MoveToFront()
         then:
-        mtf.deMove(158)=='a' as char
+        mtf.deMove(97)=='a' as char
         mtf.deMove(0)=='a' as char
         mtf.deMove(0)=='a' as char
-        mtf.deMove(158)=='b' as char
+        mtf.deMove(98)=='b' as char
         mtf.deMove(0)=='b' as char
         mtf.deMove(1)=='a' as char
     }
