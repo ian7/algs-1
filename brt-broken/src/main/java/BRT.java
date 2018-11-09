@@ -35,7 +35,7 @@ public class BRT<Key extends Comparable<Key>, Value> {
             } else {
                 Node<Key, Value> pointer = this.root;
                 while (pointer != null) {
-                    if (pointer.k.compareTo(k) < 0) {
+                    if (pointer.k.compareTo(k) > 0) {
                         if (pointer.left == null) {
                             pointer.left = newOne;
                             break;
@@ -43,8 +43,7 @@ public class BRT<Key extends Comparable<Key>, Value> {
                             pointer = pointer.left;
                         }
                     }
-                    if (pointer.k.compareTo(k) > 0) {
-                        pointer = pointer.right;
+                    if (pointer.k.compareTo(k) < 0) {
                         if (pointer.right == null) {
                             pointer.right = newOne;
                             break;
@@ -65,11 +64,11 @@ public class BRT<Key extends Comparable<Key>, Value> {
     private Node find(Key k) {
         Node<Key, Value> pointer = this.root;
         while (pointer != null && pointer.k.compareTo(k) != 0) {
-            if (pointer.k.compareTo(k) < 0) {
+            if (pointer.k.compareTo(k) > 0) {
                 pointer = pointer.left;
                 continue;
             }
-            if (pointer.k.compareTo(k) > 0) {
+            if (pointer.k.compareTo(k) < 0) {
                 pointer = pointer.right;
                 continue;
             }

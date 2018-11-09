@@ -28,5 +28,6 @@ class BRTTest extends Specification {
         brt.get(1)=="a"
         brt.get(2)=="b"
         brt.get(3)=="c"
+        brt.size()==3
     }
 }
