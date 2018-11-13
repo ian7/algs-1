@@ -29,7 +29,21 @@ class BRTTest extends Specification {
         brt.get(2)=="b"
         brt.get(3)=="c"
         brt.size()==3
+        brt.maxDepth() == 3
     }
+
+    def "adding 100 sequential elements"(){
+        given:
+        def brt = new BRT<Integer, String>()
+        def size = 100
+        for( int i=0; i<size; i++ ){
+            brt.set(i,"a")
+        }
+        expect:
+        brt.size() == size
+        brt.maxDepth() == size
+    }
+
 
     def "adding 1k random elements"(){
         given:

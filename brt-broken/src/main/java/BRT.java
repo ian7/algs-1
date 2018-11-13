@@ -20,6 +20,19 @@ public class BRT<Key extends Comparable<Key>, Value> {
         }
     }
 
+    public int maxDepth(){
+        return maxDepth(this.root);
+    }
+
+    private int maxDepth(Node<Key, Value> n ){
+        if( n == null){
+            return 0;
+        }
+        else{
+            return Math.max( maxDepth( n.left ), maxDepth(n.right))+1;
+        }
+    }
+
     public Node<Key, Value> set(Key k, Value v) {
         this.root = set(this.root, k, v);
         return this.root;

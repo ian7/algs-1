@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="922db125-56bc-4713-a294-87bb037e7202" name="Default Changelist" comment="certificates seem to work too">
-      <change afterPath="$PROJECT_DIR$/../brt-broken/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../brt/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../burrowsWheeler/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../collinear/.idea/libraries/algs4.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../brt-broken/src/main/java/BRT.java" beforeDir="false" afterPath="$PROJECT_DIR$/../brt-broken/src/main/java/BRT.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../brt-broken/src/test/groovy/BRTTest.groovy" beforeDir="false" afterPath="$PROJECT_DIR$/../brt-broken/src/test/groovy/BRTTest.groovy" afterDir="false" />
