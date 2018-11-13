@@ -11,7 +11,7 @@ class BRTTest extends Specification {
         given:
         def brt = new BRT<Integer, String>()
         when:
-        brt.set(1,"a");
+        brt.set(1,"a")
         then:
         brt.size() == 1
         brt.get(1) == "a"
@@ -41,7 +41,19 @@ class BRTTest extends Specification {
         }
         expect:
         brt.size() == size
-        brt.maxDepth() == size
+        brt.maxDepth() <= size
+    }
+
+    def "adding 100 sequential elements in reversed order"(){
+        given:
+        def brt = new BRT<Integer, String>()
+        def size = 1000000
+        for( int i=0; i<size; i++ ){
+            brt.set(size-i,"a")
+        }
+        expect:
+        brt.size() == size
+        brt.maxDepth() <= 2 * Math.log(size)
     }
 
 
@@ -50,7 +62,7 @@ class BRTTest extends Specification {
         def brt = new BRT<Integer, String>()
         def r = new Random()
         brt.set(3,"a")
-        def size = 10000000
+        def size = 1000000
         size.times{
             brt.set(r.nextInt(),"a")
         }
