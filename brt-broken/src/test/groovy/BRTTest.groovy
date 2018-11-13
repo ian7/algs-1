@@ -50,10 +50,12 @@ class BRTTest extends Specification {
         def brt = new BRT<Integer, String>()
         def r = new Random()
         brt.set(3,"a")
-        10000000.times{
+        def size = 10000000
+        size.times{
             brt.set(r.nextInt(),"a")
         }
         expect:
         brt.contains(3)
+        brt.maxDepth() < 10 * Math.log(size)
     }
 }
