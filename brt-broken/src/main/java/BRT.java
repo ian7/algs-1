@@ -7,89 +7,68 @@ public class BRT<Key extends Comparable<Key>, Value> {
     }
 
     private class Node<Key, Value> {
-        private Node left;
-        private Node right;
-        private Value v;
         private final Key k;
+        private Value v;
+        private Node<Key, Value> left;
+        private Node<Key, Value> right;
 
-        Node(Key k, Value v) {
+        public Node(Key k, Value v) {
             this.k = k;
             this.v = v;
             this.left = null;
             this.right = null;
         }
-
-        public void setValue(Value v) {
-            this.v = v;
-        }
     }
 
-    public void add(Key k, Value v) {
-        Node<Key, Value> probe = this.find(k);
-        if (probe != null) {
-            probe.setValue(v);
-        } else {
-            Node<Key, Value> newOne = new Node(k, v);
-            if (this.root == null) {
-                this.root = newOne;
-            } else {
-                Node<Key, Value> pointer = this.root;
-                while (pointer != null) {
-                    if (pointer.k.compareTo(k) > 0) {
-                        if (pointer.left == null) {
-                            pointer.left = newOne;
-                            break;
-                        } else {
-                            pointer = pointer.left;
-                        }
-                    }
-                    if (pointer.k.compareTo(k) < 0) {
-                        if (pointer.right == null) {
-                            pointer.right = newOne;
-                            break;
-                        } else {
-                            pointer = pointer.right;
-                        }
-                    }
-                }
-            }
-            size++;
+    public Node<Key, Value> set(Key k, Value v) {
+        this.root = set(this.root, k, v);
+        return this.root;
+    }
+
+    public Node<Key, Value> set(Node<Key, Value> n, Key k, Value v) {
+        if (n == null) {
+            this.size++;
+            return new Node(k, v);
         }
+        int c = k.compareTo(n.k);
+        if (c == 0) {
+            n.v = v;
+        }
+        if (c < 0) {
+            n.left = set(n.left, k, v);
+        }
+        if (c > 0) {
+            n.right = set(n.right, k, v);
+        }
+        return n;
     }
 
     public boolean contains(Key k) {
-        return find(k) != null;
-    }
-
-    private Node find(Key k) {
-        Node<Key, Value> pointer = this.root;
-        while (pointer != null && pointer.k.compareTo(k) != 0) {
-            if (pointer.k.compareTo(k) > 0) {
-                pointer = pointer.left;
-                continue;
-            }
-            if (pointer.k.compareTo(k) < 0) {
-                pointer = pointer.right;
-                continue;
-            }
-        }
-        if (pointer == null) {
-            return null;
-        } else {
-            return pointer;
-        }
+        return get(k)!=null;
     }
 
     public Value get(Key k) {
-        Node<Key, Value> probe = this.find(k);
-        if (probe != null) {
-            return probe.v;
-        } else {
-            return null;
+        Node<Key, Value> n = this.root;
+        while (n != null) {
+            int c = k.compareTo(n.k);
+            if (c == 0) {
+                return n.v;
+            } else if (c < 0) {
+                n = n.left;
+            } else if (c > 0) {
+                n = n.right;
+            }
         }
+        return null;
+    }
+
+    public int depth() {
+        return 0;
     }
 
     public int size() {
         return this.size;
     }
+
+    ;
 }
